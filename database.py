@@ -2,7 +2,7 @@ import sqlite3
 from datetime import date
 import random, string
 
-#TODO: Actually define the errors
+#TODO: Actually catch the correct errors
 conn = None
 
 def connect(db_name):
@@ -10,7 +10,7 @@ def connect(db_name):
         global conn
         conn = sqlite3.connect(db_name)
         return True
-    except Error as e:
+    except Exceptions as e:
         print(e)
         return False
 
@@ -34,7 +34,7 @@ def generate_unique_key(length, table, col_name):
 
             if row is None:
                 return key
-        except Error as e:
+        except Exceptions as e:
             print(e)
 
 def sign_up(uid, name, city, pwd):
@@ -81,11 +81,32 @@ def login(uid, pwd):
         else:
             return True
 
-    except Error as e:
+    except Exceptions as e:
         print(e)
         return False
 
-    return True
+
+def check_privilege(uid):
+    try:
+        c = conn.cursor()
+        c.execute('''
+            SELECT *
+            FROM privileged
+            WHERE uid =:uid
+        ''', {
+                "uid": uid,
+            }
+        )
+
+        row = c.fetchone()
+        if row is None:
+            return False
+        else:
+            return True
+
+    except Exceptions as e:
+        print(e)
+        return False
 
 
 def post_question(title, body, uid):
