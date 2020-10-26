@@ -22,6 +22,10 @@ def logged_in(uid, pwd, is_privilege):
             print('7 for Post post action-add a tag')
             print('8 for Post action-edit')
 
+        #TODO: I realized after reading the actions that
+        # its not gonna be a menu like this (just 1 and 2)
+        # and then 2 will have a bunch more
+
         action = request_input()[0]
 
         if (action == "logout"):
@@ -43,7 +47,10 @@ def logged_in(uid, pwd, is_privilege):
 
         # Search for posts
         elif (action == "2"):
-            pass
+            print("Enter keywords separated by a comma")
+            keywords = request_input()
+            results = db.search_posts(keywords)
+            print(results)
 
         # Post action-answer
         elif (action == "3"):

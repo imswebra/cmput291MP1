@@ -15,7 +15,8 @@ def connect(db_name):
         return False
 
 
-#TODO: Implement
+#TODO:
+# Requirements of groups of 3 is "counter sql injections"
 def prevent_sql_injection():
     pass
 
@@ -139,3 +140,7 @@ def post_question(title, body, uid):
         return False
 
     return True
+
+def search_posts(keywords):
+    # Get posts with keywords
+    pass
