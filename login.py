@@ -18,9 +18,9 @@ def login():
         #Login
         if action == '1':
             print("To return to main screen type `back`")
-            print('Enter: Id, password')
+            print('Enter: Id')
             while(True):
-                login_values = request_input() #TODO: Should not show password
+                login_values = request_input(password=True)
                 if login_values[0] == "back":
                     return False, None, None, None
 
@@ -42,9 +42,9 @@ def login():
         #Sign up
         elif action == '2':
             print("To return to main screen type `back`")
-            print('Enter: Id, Name, City, Password')
+            print('Enter: Id, Name, City')
             while(True):
-                sign_up_values = request_input() #TODO: Should not show password
+                sign_up_values = request_input(password=True)
                 if sign_up_values[0] == "back":
                     return False, None, None, None
 
