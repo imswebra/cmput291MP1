@@ -124,8 +124,35 @@ def logged_in(uid, pwd, is_privilege):
                     print('')
 
                 # Post action-mark as accepted
-                elif (action == "5") and is_privilege:
-                    pass
+                elif (action == "5") and is_privilege and not is_question:
+                    question = db.get_question_of_answer(pid)
+
+                    should_mark_accepted = True
+                    if question is not None:
+                        action = "0"
+                        if question[1] is not None:
+                            print('Replace current accepted answer?')
+                            print('0 Yes')
+                            print('1 No')
+                            print('')
+
+                            action = request_input()[0]
+
+                        if action == "1":
+                            print("The answer was not marked accepted")
+                            should_mark_accepted = False
+                    else:
+                        print('Failed to mark the answer as accepted')
+                        should_mark_accepted = False
+
+                    if should_mark_accepted:
+                        mark_accepted_success = db.mark_accepted(pid, question[0])
+
+                        if mark_accepted_success:
+                            print('The answer was marked accepted successfully')
+                        else:
+                            print('Failed to mark the answer as accepted')
+                    print('')
 
                 # Post action-give a badge
                 elif (action == "6") and is_privilege:

@@ -242,3 +242,40 @@ def post_answer(title, body, uid, qid):
 def post_vote(pid, uid):
     # I will do this one - mitch
     return True
+
+def get_question_of_answer(answer_pid):
+    # I will do this one - nayan
+    try:
+        c = conn.cursor()
+        
+        c.execute('''
+            select q.pid,
+            q.theaid
+            from questions q,
+            answers a
+            where a.pid = ?
+            and a.qid = q.pid;
+        ''', answer_pid)
+
+        return c.fetchone()
+        
+    except Exception as e:
+        print(e)
+        return None
+
+def mark_accepted(answer_pid, question_pid):
+    try:
+        c = conn.cursor()
+
+        c.execute('''
+            update questions
+            set theaid = ?
+            where pid = ?;
+        ''', (answer_pid, question_pid))
+
+        conn.commit()
+        return True
+
+    except Exception as e:
+        print(e)
+        return False
