@@ -241,4 +241,35 @@ def post_answer(title, body, uid, qid):
 
 def post_vote(pid, uid):
     # I will do this one - mitch
+    try:
+        c = conn.cursor()
+        today = date.today()
+
+        # Get the next vote number
+        c.execute('''
+            select ifnull(max(vno), 0)
+            from votes v
+            where v.pid = ?
+        ''', (pid,)
+        )
+
+        row = c.fetchone()
+        vote_number = row[0] + 1
+
+        c.execute('''
+            Insert INTO votes VALUES
+            (:pid, :vno, :vdate, :uid)
+        ''', {
+                "pid": pid,
+                "vno": vote_number,
+                "vdate": today,
+                "uid": uid
+            }
+        )
+
+        conn.commit()
+    except Exception as e:
+        print(e)
+        return False
+
     return True
