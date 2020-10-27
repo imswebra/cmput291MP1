@@ -160,7 +160,15 @@ def logged_in(uid, pwd, is_privilege):
 
                 # Post post action-add a tag
                 elif (action == "7") and is_privilege:
-                    pass
+                    print('Add tag')
+                    tag = input('Enter a tag: ')
+                    add_tag_success = db.add_tag(pid, tag)
+
+                    if add_tag_success:
+                        print("Successfully added a tag")
+                    else:
+                        print("Failed to add a tag")
+                    print('')
 
                 # Post action-edit:
                 elif (action == "8") and is_privilege:

@@ -309,3 +309,22 @@ def mark_accepted(answer_pid, question_pid):
     except Exception as e:
         print(e)
         return False
+
+def add_tag(pid, tag):
+    try:
+        c = conn.cursor()
+
+        c.execute('''
+            insert into tags values
+            (:pid, :tag)
+        ''', {
+            "pid": pid,
+            "tag": tag
+        })
+
+        conn.commit()
+        return True
+
+    except Exception as e:
+        print(e)
+        return False
