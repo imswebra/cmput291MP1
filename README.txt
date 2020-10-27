@@ -14,3 +14,6 @@ Source material:
 
 Instructions to run:
 python main.py <DB-name>
+
+#TODO
+- Add the correct exceptions
