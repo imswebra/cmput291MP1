@@ -2,23 +2,30 @@ import sqlite3
 from datetime import date
 import random, string
 
-#TODO: Actually catch the correct errors
+#TODO: Actually catch the correct errors!!
 conn = None
+
+
+def count_keywords(string1, string2, keywords):
+    total_count = 0
+    keywords = keywords.split
+    for k in keywords:
+        print(k)
+        total_count += string1.lower().count(k) + string2.lower().count(k)
+
+    return total_count
+
 
 def connect(db_name):
     try:
         global conn
         conn = sqlite3.connect(db_name)
+        conn.create_function("count_keywords", 3, count_keywords)
+
         return True
-    except Exceptions as e:
+    except Exception as e:
         print(e)
         return False
-
-
-#TODO:
-# Requirements of groups of 3 is "counter sql injections"
-def prevent_sql_injection():
-    pass
 
 
 def generate_unique_key(length, table, col_name):
@@ -27,6 +34,7 @@ def generate_unique_key(length, table, col_name):
 
         try:
             c = conn.cursor()
+            # Using format here is ok since no user input is used
             stmt = 'SELECT {} FROM {} WHERE {}={};'.format(
                 col_name, table, col_name, key
                 )
@@ -35,8 +43,9 @@ def generate_unique_key(length, table, col_name):
 
             if row is None:
                 return key
-        except Exceptions as e:
+        except Exception as e:
             print(e)
+
 
 def sign_up(uid, name, city, pwd):
     try:
@@ -55,7 +64,7 @@ def sign_up(uid, name, city, pwd):
         )
 
         conn.commit()
-    except sqlite3.IntegrityError as e:
+    except Exception as e:
         print(e)
         return False
 
@@ -82,7 +91,7 @@ def login(uid, pwd):
         else:
             return True
 
-    except Exceptions as e:
+    except Exception as e:
         print(e)
         return False
 
@@ -105,7 +114,7 @@ def check_privilege(uid):
         else:
             return True
 
-    except Exceptions as e:
+    except Exception as e:
         print(e)
         return False
 
@@ -135,12 +144,50 @@ def post_question(title, body, uid):
         )
 
         conn.commit()
-    except sqlite3.OperationError as e:
+    except Exception as e:
         print(e)
         return False
 
     return True
 
+
 def search_posts(keywords):
     # Get posts with keywords
-    pass
+    keywords = [s.lower() for s in keywords]
+    joined_keywords = " ".join(keywords)
+    keywords.append(joined_keywords)
+    keywords.append(joined_keywords)
+
+    try:
+        c = conn.cursor()
+
+        print(keywords)
+        sql = ('''
+            with tagCount as (
+                select p.pid as pid, count(*) as keywordCount
+                from posts p join tags t on p.pid = t.pid
+                where lower(tag) in ({seq})
+                group by p.pid
+            ), voteCount as {
+                select p.pid, count( ) as count
+                from posts p left outer join votes v on p.pid = v.pid
+            }
+            select p.pid, count_keywords(p.title, p.body, ?) + ifnull(tc.keywordCount, 0) as wordCount
+            from posts p left outer join tagCount tc on p.pid = tc.pid
+            where count_keywords(p.title, p.body, ?) > 0
+            or tc.keywordCount > 0
+            order by wordcount desc;
+        ''').format(
+            seq=','.join(['?']*(len(keywords) - 2))
+        )
+
+        print(sql)
+
+        c.execute(sql, keywords,)
+
+        rows = c.fetchall()
+
+        return rows
+    except Exception as e:
+        print(e)
+        return []
