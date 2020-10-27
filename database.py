@@ -240,7 +240,6 @@ def post_answer(title, body, uid, qid):
 
 
 def post_vote(pid, uid):
-    # I will do this one - mitch
     try:
         c = conn.cursor()
         today = date.today()
