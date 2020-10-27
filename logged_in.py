@@ -129,17 +129,17 @@ def logged_in(uid, pwd, is_privilege):
 
                     should_mark_accepted = True
                     if question is not None:
-                        action = "0"
+                        action = "1"
                         if question[1] is not None:
                             print('Replace current accepted answer?')
-                            print('0 Yes')
-                            print('1 No')
+                            print('0 No')
+                            print('1 Yes')
                             print('')
 
                             action = request_input()[0]
 
-                        if action == "1":
-                            print("The answer was not marked accepted")
+                        if action == "0":
+                            print("The answer will not be marked as accepted")
                             should_mark_accepted = False
                     else:
                         print('Failed to mark the answer as accepted')
