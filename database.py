@@ -328,3 +328,34 @@ def add_tag(pid, tag):
     except Exception as e:
         print(e)
         return False
+
+def edit_post(pid, title, body):
+    try:
+        c = conn.cursor()
+
+        if title == "":
+            c.execute('''
+                update posts
+                set body = ?
+                where pid = ?
+            ''', (body, pid))
+        elif body == "":
+            c.execute('''
+                update posts
+                set title = ?
+                where pid = ?
+            ''', (title, pid))
+        else:
+            c.execute('''
+                update posts
+                set title = ?,
+                body = ?
+                where pid = ?
+            ''', (title, body, pid))
+
+        conn.commit()
+        return True
+
+    except Exception as e:
+        print(e)
+        return False 

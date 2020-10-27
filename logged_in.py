@@ -172,7 +172,25 @@ def logged_in(uid, pwd, is_privilege):
 
                 # Post action-edit:
                 elif (action == "8") and is_privilege:
-                    pass
+                    print('Edit the title and/or body of a post')
+
+                    title = ""
+                    body = ""
+                    while title == "" and body == "":
+                        title = input('Enter new title (leave blank to keep old title): ')
+                        body = input('Enter new body (leave blank to keep old body): ')
+
+                        if title == "" and body == "":
+                            print('Atleast one of title and body must be entered')
+                        print('')
+                    
+                    edit_post_success = db.edit_post(pid, title, body)
+
+                    if edit_post_success:
+                        print("Successfully editted the post")
+                    else:
+                        print("Failed to edit the post")
+                    print('')
 
                 else:
                     print_invalid_option()
