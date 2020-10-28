@@ -19,7 +19,7 @@ def logged_in(uid, pwd, is_privilege):
         action = request_input()[0]
 
         if (action == "logout"):
-            break
+            return
 
         # Post a Question
         elif (action == "1"):
@@ -69,11 +69,19 @@ def logged_in(uid, pwd, is_privilege):
                         old_max=max_i
                     )
                     print_search_results(results, min_i, max_i)
+                elif action == "back":
+                    break
+                elif action == "logout":
+                    return
 
                 elif is_index(action, results):
                     selected_index = int(action)
                 else:
                     print_invalid_input()
+
+            # Back was selected
+            if (selected_index == -1):
+                continue
 
             while(True):
                 # Now have a post, can act on that post
