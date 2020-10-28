@@ -4,7 +4,7 @@ from utils import (
     request_input,
     print_invalid_input,
     print_invalid_option,
-    get_max_min_index,
+    get_min_max_index,
     is_index
 )
 
@@ -42,11 +42,11 @@ def logged_in(uid, pwd, is_privilege):
 
             selected_index = -1
             i = 0
-            print("Showing Results for keywords: " + str(keywords))
-            print("Enter the index of the post excute action on that post")
-            print('')
+            print("Showing results for keywords:", str(keywords))
+            print("Enter the index of the post to excute an action on that post")
+            min_i, max_i = get_min_max_index(results=results)
+            print("")
 
-            min_i, max_i = get_max_min_index(results=results)
             print("index, pid, pdate, title, body, poster, keyword count, vote count, answer count")
             while(selected_index == -1):
                 for row in results[min_i:max_i]:
@@ -59,11 +59,13 @@ def logged_in(uid, pwd, is_privilege):
 
                 action = request_input()[0]
                 if action == "more":
+                    # TODO: Check if more are available
+
                     # Increment the min and max
-                    min_i, max_i = get_max_min_index(
+                    min_i, max_i = get_min_max_index(
                         results=results,
                         old_min=min_i,
-                        old_max= max_i
+                        old_max=max_i
                     )
                 elif is_index(action, results):
                     selected_index = int(action)
