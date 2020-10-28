@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     is_connected = db.connect(argv[1])
 
-    while(is_connected):
-        is_logged_in, uid, pwd, is_privilege = login()
+    while (is_connected):
+        is_logged_in, uid, pwd, is_privileged = login()
         if is_logged_in:
-            logged_in(uid, pwd, is_privilege)
+            logged_in(uid, pwd, is_privileged)
