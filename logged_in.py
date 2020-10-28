@@ -34,9 +34,12 @@ def logged_in(uid_param, is_privileged_param):
             post_question()
         # Search for posts
         elif (action == "2"):
-            logout = search_select_posts()
+            post, logout = search_select_posts()
             if logout:
                 return
+            if post is not None:
+                # TODO: Handle return along with post_action refactor
+                post_action(post)
         # Invalid selection
         else:
             print_invalid_option(max_option=2)
@@ -95,13 +98,11 @@ def search_select_posts():
         elif action == "back":
             # Should go to main menu (post/search selection). If "continue"
             # is used, user will go back to keyword input and will be stuck
-            return False
+            return None, False
         elif action == "logout":
-            return True
+            return None, True
         elif is_index(action, results):
-            # TODO: Fix this along with post_action refactor
-            post_action(results[int(action)])
-            return False
+            return results[int(action)], False
         else:
             print_invalid_option(max_option=len(results))
 
