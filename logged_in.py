@@ -40,26 +40,27 @@ def logged_in(uid, pwd, is_privilege):
             keywords = request_input()
             results = db.search_posts(keywords)
 
-            selected_index = -1
-            i = 0
-            print("Showing results for keywords:", str(keywords))
+            # TODO: Handle back/logout here? Feels weird in a search but we are
+            # handling exit, so we should probably be consistent
+
+            if len(results) == 0:
+                print("No results found for keywords:", str(keywords), "\n")
+                continue
+
+            print("Showing results for keywords", str(keywords))
             print("Enter the index of the post to excute an action on that post")
             min_i, max_i = get_min_max_index(results=results)
             print("")
+            print_search_results(results, min_i, max_i)
 
-            print("index, pid, pdate, title, body, poster, keyword count, vote count, answer count")
+            selected_index = -1
             while(selected_index == -1):
-                for row in results[min_i:max_i]:
-                    str_ = ("{}: {}, {}, {}, {}, {}, {}, {}, {}").format(
-                        i, row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
-                    )
-                    print(str_)
-                    i += 1
-                print('')
-
                 action = request_input()[0]
+
                 if action == "more":
-                    # TODO: Check if more are available
+                    if len(results) <= max_i:
+                        print("No more results are available")
+                        continue
 
                     # Increment the min and max
                     min_i, max_i = get_min_max_index(
@@ -67,6 +68,8 @@ def logged_in(uid, pwd, is_privilege):
                         old_min=min_i,
                         old_max=max_i
                     )
+                    print_search_results(results, min_i, max_i)
+
                 elif is_index(action, results):
                     selected_index = int(action)
                 else:
@@ -185,7 +188,7 @@ def logged_in(uid, pwd, is_privilege):
                         if title == "" and body == "":
                             print('Atleast one of title and body must be entered')
                         print('')
-                    
+
                     edit_post_success = db.edit_post(pid, title, body)
 
                     if edit_post_success:
@@ -199,4 +202,11 @@ def logged_in(uid, pwd, is_privilege):
 
         # Invalid selection
         else:
-            print_invalid_option()
+            print_invalid_option(max_option=2)
+
+
+def print_search_results(results, min_i, max_i):
+    print("index, pid, pdate, title, body, poster, keyword count, vote count, answer count")
+    for i, row in enumerate(results[min_i:max_i], min_i):
+        print(("{}: {}, {}, {}, {}, {}, {}, {}, {}").format(i, *row))
+    print("")
