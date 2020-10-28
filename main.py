@@ -16,4 +16,4 @@ if __name__ == '__main__':
     while (is_connected):
         is_logged_in, uid, pwd, is_privileged = login_or_signup()
         if is_logged_in:
-            logged_in(uid, pwd, is_privileged)
+            logged_in(uid, is_privileged)
