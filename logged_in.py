@@ -34,7 +34,7 @@ def logged_in(uid_param, is_privileged_param):
             post_question()
         # Search for posts
         elif (action == "2"):
-            logout = search_posts()
+            logout = search_select_posts()
             if logout:
                 return
         # Invalid selection
@@ -54,14 +54,14 @@ def post_question():
     print("")
 
 
-def search_posts():
+def search_select_posts():
     while (True):
         print("Enter keywords separated by a comma")
         keywords = request_input()
         results = db.search_posts(keywords)
 
-        # TODO: Handle back/logout here? Feels weird in a search but we are
-        # handling exit, so we should probably be consistent
+        # TODO: Handle back/logout here? Would limit keywords in the search but
+        # we are handling exit, should we be consistent?
 
         if len(results) == 0:
             print("No results found for keywords:", str(keywords), "\n")
@@ -73,6 +73,7 @@ def search_posts():
         print("")
         print_search_results(results, min_i, max_i)
 
+        # Select posts
         while (True):
             action = request_input()[0]
 
@@ -89,6 +90,8 @@ def search_posts():
                 )
                 print_search_results(results, min_i, max_i)
             elif action == "back":
+                # Should go to main menu (post/search selection). If "continue"
+                # is used, user will go back to keyword input and will be stuck
                 return False
             elif action == "logout":
                 return True
@@ -97,7 +100,7 @@ def search_posts():
                 post_action(int(action))
                 return False
             else:
-                print_invalid_input()
+                print_invalid_option(max_option=len(results))
 
 
 def post_action(post):  # TODO: Refactor this
