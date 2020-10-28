@@ -55,6 +55,7 @@ def post_question():
 
 
 def search_select_posts():
+    # Search posts
     while (True):
         print("Enter keywords separated by a comma")
         keywords = request_input()
@@ -63,44 +64,46 @@ def search_select_posts():
         # TODO: Handle back/logout here? Would limit keywords in the search but
         # we are handling exit, should we be consistent?
 
-        if len(results) == 0:
-            print("No results found for keywords:", str(keywords), "\n")
-            continue
+        if len(results) > 0:
+            break
+        print("No results found for keywords:", str(keywords), "\n")
+        continue
 
-        print("Showing results for keywords", str(keywords))
-        print("Enter the index of the post to excute an action on that post")
-        min_i, max_i = get_min_max_index(results=results)
-        print("")
-        print_search_results(results, min_i, max_i)
+    # List results
+    print("Showing results for keywords", str(keywords))
+    print("Enter the index of the post to excute an action on that post")
+    min_i, max_i = get_min_max_index(results=results)
+    print("")
+    print_search_results(results, min_i, max_i)
 
-        # Select posts
-        while (True):
-            action = request_input()[0]
+    # Select posts
+    while (True):
+        action = request_input()[0]
 
-            if action == "more":
-                if len(results) <= max_i:
-                    print("No more results are available")
-                    continue
+        if action == "more":
+            if len(results) <= max_i:
+                print("No more results are available")
+                continue
 
-                # Increment the min and max
-                min_i, max_i = get_min_max_index(
-                    results=results,
-                    old_min=min_i,
-                    old_max=max_i
-                )
-                print_search_results(results, min_i, max_i)
-            elif action == "back":
-                # Should go to main menu (post/search selection). If "continue"
-                # is used, user will go back to keyword input and will be stuck
-                return False
-            elif action == "logout":
-                return True
-            elif is_index(action, results):
-                # TODO: Fix this along with post_action refactor
-                post_action(int(action))
-                return False
-            else:
-                print_invalid_option(max_option=len(results))
+            # Increment the min and max
+            min_i, max_i = get_min_max_index(
+                results=results,
+                old_min=min_i,
+                old_max=max_i
+            )
+            print_search_results(results, min_i, max_i)
+        elif action == "back":
+            # Should go to main menu (post/search selection). If "continue"
+            # is used, user will go back to keyword input and will be stuck
+            return False
+        elif action == "logout":
+            return True
+        elif is_index(action, results):
+            # TODO: Fix this along with post_action refactor
+            post_action(results[int(action)])
+            return False
+        else:
+            print_invalid_option(max_option=len(results))
 
 
 def post_action(post):  # TODO: Refactor this
