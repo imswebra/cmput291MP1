@@ -7,11 +7,11 @@ def split_and_strip(input_val):
 
 
 def request_input(password=False):
-    response =  input('Input: ')
+    response = input('Input: ')
     values = split_and_strip(response)
 
     if values[0] == "exit":
-        exit()
+        exit(0)
 
     keywords = {"back", "logout"}
 
