@@ -62,19 +62,13 @@ def print_invalid_option(max_option=None):
         print("Invalid option")
 
 
-def get_min_max_index(results, old_min=None, old_max=None):
+def get_min_max_index(results, old_min=-5, old_max=0):
     increment = 5
-    # First time
-    if old_min is None and old_max is None:
-        new_min = 0
-    # Not the first time
-    else:
-        new_min = old_max + 1
-
+    new_min = old_min + increment
     new_max = min(old_max + increment, len(results))
+
     if len(results) > new_max:
         print("Type `more` to see more results")
-
     return new_min, new_max
 
 
