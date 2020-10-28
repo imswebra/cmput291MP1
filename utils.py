@@ -52,8 +52,14 @@ def print_invalid_input(len_tuple=None):
         print("Input is invalid")
 
 
-def print_invalid_option():
-    print("Invalid option")
+def print_invalid_option(max_option=None):
+    '''Prints an invalid option message.
+    If max_option specified, prints message with usage hint.
+    '''
+    if max_option:
+        print("Invalid option, expected option between 1 and", max_option)
+    else:
+        print("Invalid option")
 
 
 def get_max_min_index(results, old_min=None, old_max=None):

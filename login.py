@@ -68,4 +68,4 @@ def login():
 
         # Invalid selection
         else:
-            print_invalid_option()
+            print_invalid_option(max_option=2)
