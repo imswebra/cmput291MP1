@@ -2,6 +2,7 @@ import database as db
 
 from utils import (
     request_input,
+    print_options,
     print_invalid_option,
     get_min_max_index,
     is_index
@@ -20,9 +21,7 @@ def logged_in(uid_param, is_privileged_param):
 
     print('Now logged in. To log out, type `logout` at anytime.')
     while (True):
-        print('Enter:')
-        print('1 for Post a question')
-        print('2 for Search posts')
+        print_options(["Post a question", "Search posts"])
 
         action = request_input()[0]
 
@@ -120,19 +119,16 @@ def post_action(post):  # TODO: Refactor this
 
         print("Selected post pid is:", pid)
         print("To go back, type `back`")
-        print('Enter post-action selection:')
 
-        # Intentionally skip numbers so number:action is always consistent
+        pa_actions = ["Answer question", "Vote on post",
+                      "Mark answer as accepted", "Give poster a badge",
+                      "Add tag to post", "Edit post"]
+        skip_actions = pa_actions[2:] if not is_privileged else []
         if is_question:
-            print("1 for Answer question")
-        print("2 for Vote on post")
-        if is_privileged:
-            print("Privileged Actions:")
-            if not is_question:
-                print("3 for Mark answer as accepted")
-            print("4 for Give poster a badge")
-            print("5 for Add tag to post")
-            print("6 for Edit post")
+            skip_actions.append(pa_actions[2])
+        else:
+            skip_actions.append(pa_actions[0])
+        print_options(pa_actions, skip_actions)
 
         action = request_input()[0]
 

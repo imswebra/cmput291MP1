@@ -52,6 +52,14 @@ def print_invalid_input(len_tuple=None):
         print("Input is invalid")
 
 
+def print_options(options, skip_options=[]):
+    '''Prints the given options, skipping the skip_options'''
+    print("Enter:")
+    for i, option in enumerate(options, 1):
+        if option not in skip_options:
+            print("  " + str(i), "to", option)
+
+
 def print_invalid_option(max_option=None):
     '''Prints an invalid option message.
     If max_option specified, prints message with usage hint.

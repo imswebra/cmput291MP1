@@ -2,15 +2,14 @@ import database as db
 
 from utils import (
     request_input,
+    print_options,
     print_invalid_option
 )
 
 
 def login_or_signup():
     print('To exit program type `exit` at any point')
-    print('Enter:')
-    print('1 for Login')
-    print('2 for Sign-up')
+    print_options(["Login", "Sign-up"])
 
     while (True):
         action = request_input()[0]
