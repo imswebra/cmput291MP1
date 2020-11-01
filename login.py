@@ -27,7 +27,7 @@ def login_or_signup():
 
 
 def login():
-    print("To return to main screen type `back`")
+    print("To return to the main screen, type `back`")
     print("Enter: Id")
     while (True):
         # login_values will have len of 2 (1 + pass)
@@ -51,7 +51,7 @@ def login():
 
 
 def signup():
-    print("To return to main screen type `back`")
+    print("To return to the main screen, type `back`")
     print("Enter: Id, Name, City")
     while(True):
         # Sign_up_values will have len of 4 (3 + pass)
