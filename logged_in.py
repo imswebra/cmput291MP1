@@ -108,133 +108,143 @@ def search_select_posts():
             print_invalid_option(max_option=len(results))
 
 
-def post_action(post):  # TODO: Refactor this
+def print_search_results(results, min_i, max_i):
+    print("index, pid, pdate, title, body, poster, keyword count, vote count, answer count")
+    for i, row in enumerate(results[min_i:max_i], min_i):
+        print(("{}: {}, {}, {}, {}, {}, {}, {}, {}").format(i, *row))
+    print("")
+
+
+def post_action(post):
+    # Get post info
+    pid = post[0]
+    # Checking answer count to determine post type
+    is_question = True if post[7] is not None else False
+
+    # Setup post action options
+    pa_actions = ["Answer question", "Vote on post",
+                  "Mark answer as accepted", "Give poster a badge",
+                  "Add tag to post", "Edit post"]
+    skip_actions = pa_actions[2:] if not is_privileged else []
+    if is_question:
+        skip_actions.append(pa_actions[2])
+    else:
+        skip_actions.append(pa_actions[0])
+
     while(True):
-        # Now have a post, can act on that post
-        pid = post[0]
-
-        # We can check if that post was a question by checking answer count
-        # (answer count is None if answer)
-        is_question = True if post[7] is not None else False
-
         print("Selected post pid is:", pid)
         print("To go back, type `back`")
-
-        pa_actions = ["Answer question", "Vote on post",
-                      "Mark answer as accepted", "Give poster a badge",
-                      "Add tag to post", "Edit post"]
-        skip_actions = pa_actions[2:] if not is_privileged else []
-        if is_question:
-            skip_actions.append(pa_actions[2])
-        else:
-            skip_actions.append(pa_actions[0])
         print_options(pa_actions, skip_actions)
-
         action = request_input()[0]
 
         if action == "back":
             return False
         elif action == "logout":
             return True
-
         # Post action-answer
         elif (action == "1") and is_question:
-            print("Post Answer")
-            title_text = input("Enter title: ")
-            body_text = input("Enter body: ")
-            post_success = db.post_answer(title_text, body_text, uid, pid)
-            if post_success:
-                print("Answer successfully posted")
-            else:
-                print("Answer failed to post")
-
-            print('')
-
+            post_answer(pid)
         # Post action-vote
         elif (action == "2"):
-            vote_success = db.post_vote(pid, uid)
-
-            if vote_success:
-                print("Vote successfully posted")
-            else:
-                print("Vote failed to post")
-            print('')
-
+            post_vote(pid)
         # Post action-mark as accepted
         elif (action == "3") and is_privileged and not is_question:
-            question = db.get_question_of_answer(pid)
-
-            should_mark_accepted = True
-            if question is not None:
-                action = "1"
-                if question[1] is not None:
-                    print('Replace current accepted answer?')
-                    print('0 No')
-                    print('1 Yes')
-                    print('')
-
-                    action = request_input()[0]
-
-                if action == "0":
-                    print("The answer will not be marked as accepted")
-                    should_mark_accepted = False
-            else:
-                print('Failed to mark the answer as accepted')
-                should_mark_accepted = False
-
-            if should_mark_accepted:
-                mark_accepted_success = db.mark_accepted(pid, question[0])
-
-                if mark_accepted_success:
-                    print('The answer was marked accepted successfully')
-                else:
-                    print('Failed to mark the answer as accepted')
-            print('')
-
+            mark_as_accepted(pid)
         # Post action-give a badge
         elif (action == "4") and is_privileged:
-            pass
-
+            give_badge(pid)
         # Post post action-add a tag
         elif (action == "5") and is_privileged:
-            print('Add tag')
-            tag = input('Enter a tag: ')
-            add_tag_success = db.add_tag(pid, tag)
-
-            if add_tag_success:
-                print("Successfully added a tag")
-            else:
-                print("Failed to add a tag")
-            print('')
-
+            add_tag(pid)
         # Post action-edit:
         elif (action == "6") and is_privileged:
-            print('Edit the title and/or body of a post')
-
-            title = ""
-            body = ""
-            while title == "" and body == "":
-                title = input('Enter new title (leave blank to keep old title): ')
-                body = input('Enter new body (leave blank to keep old body): ')
-
-                if title == "" and body == "":
-                    print('Atleast one of title and body must be entered')
-                print('')
-
-            edit_post_success = db.edit_post(pid, title, body)
-
-            if edit_post_success:
-                print("Successfully editted the post")
-            else:
-                print("Failed to edit the post")
-            print('')
-
+            edit_post(pid)
+        # Invalid selection
         else:
             print_invalid_option()
+        print("")
 
 
-def print_search_results(results, min_i, max_i):
-    print("index, pid, pdate, title, body, poster, keyword count, vote count, answer count")
-    for i, row in enumerate(results[min_i:max_i], min_i):
-        print(("{}: {}, {}, {}, {}, {}, {}, {}, {}").format(i, *row))
-    print("")
+def post_answer(pid):
+    print("Post Answer")
+    title_text = input("Enter title: ")
+    body_text = input("Enter body: ")
+    post_success = db.post_answer(title_text, body_text, uid, pid)
+    if post_success:
+        print("Answer successfully posted")
+    else:
+        print("Answer failed to post")
+
+
+def post_vote(pid):
+    vote_success = db.post_vote(pid, uid)
+    if vote_success:
+        print("Vote successfully posted")
+    else:
+        print("Vote failed to post")
+
+
+def mark_as_accepted(pid):
+    question = db.get_question_of_answer(pid)
+
+    should_mark_accepted = True
+    if question is not None:
+        action = "1"
+        if question[1] is not None:
+            print('Replace current accepted answer?')
+            print('0 No')
+            print('1 Yes')
+            print('')
+
+            action = request_input()[0]
+
+        if action == "0":
+            print("The answer will not be marked as accepted")
+            should_mark_accepted = False
+    else:
+        print('Failed to mark the answer as accepted')
+        should_mark_accepted = False
+
+    if should_mark_accepted:
+        mark_accepted_success = db.mark_accepted(pid, question[0])
+
+        if mark_accepted_success:
+            print('The answer was marked accepted successfully')
+        else:
+            print('Failed to mark the answer as accepted')
+
+
+def give_badge(pid):
+    pass
+
+
+def add_tag(pid):
+    print('Add tag')
+    tag = input('Enter a tag: ')
+    add_tag_success = db.add_tag(pid, tag)
+
+    if add_tag_success:
+        print("Successfully added a tag")
+    else:
+        print("Failed to add a tag")
+
+
+def edit_post(pid):
+    print('Edit the title and/or body of a post')
+
+    title = ""
+    body = ""
+    while title == "" and body == "":
+        title = input('Enter new title (leave blank to keep old title): ')
+        body = input('Enter new body (leave blank to keep old body): ')
+
+        if title == "" and body == "":
+            print('Atleast one of title and body must be entered')
+        print('')
+
+    edit_post_success = db.edit_post(pid, title, body)
+
+    if edit_post_success:
+        print("Successfully editted the post")
+    else:
+        print("Failed to edit the post")
