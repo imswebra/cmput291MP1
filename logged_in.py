@@ -36,9 +36,11 @@ def logged_in(uid_param, is_privileged_param):
             post, logout = search_select_posts()
             if logout:
                 return
-            if post is not None:
-                # TODO: Handle return along with post_action refactor
-                post_action(post)
+            if post is None:  # Back was used
+                continue
+            logout = post_action(post)
+            if logout:
+                return
         # Invalid selection
         else:
             print_invalid_option(max_option=2)
@@ -134,10 +136,10 @@ def post_action(post):  # TODO: Refactor this
 
         action = request_input()[0]
 
-        if (action == "back"):
-            break
+        if action == "back":
+            return False
         elif action == "logout":
-            pass  # TODO
+            return True
 
         # Post action-answer
         elif (action == "1") and is_question:
