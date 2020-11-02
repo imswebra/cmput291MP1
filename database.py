@@ -276,7 +276,6 @@ def post_vote(pid, uid):
 
 
 def get_question_of_answer(answer_pid):
-    # I will do this one - nayan
     try:
         c = conn.cursor()
 
@@ -287,7 +286,8 @@ def get_question_of_answer(answer_pid):
             answers a
             where a.pid = ?
             and a.qid = q.pid;
-        ''', answer_pid)
+        ''', [answer_pid]
+        )
 
         return c.fetchone()
 
