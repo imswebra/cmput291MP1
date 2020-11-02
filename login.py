@@ -65,8 +65,8 @@ def signup():
     Returns the uid of the new user, None if signup failed
     """
     print("To return to the main screen, type `back`")
-    print("Enter: Id, Name, City")
     while(True):
+        print("Enter: Id, Name, City")
         # Sign_up_values will have len of 4 (3 + pass)
         sign_up_values = request_input(expected_len=3, logout_allowed=False, password=True)
         if not sign_up_values:

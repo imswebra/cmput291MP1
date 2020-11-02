@@ -67,6 +67,12 @@ def sign_up(uid, name, city, pwd):
         )
 
         conn.commit()
+    except sqlite3.IntegrityError as e:
+        if "UNIQUE constraint failed" in str(e):
+            print("Sorry, that ID is already in use")
+        else:
+            print(e)
+        return False
     except Exception as e:
         print(e)
         return False
