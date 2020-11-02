@@ -18,6 +18,7 @@ def count_keywords(string1, string2, keywords):
         print(e)
         return 0
 
+
 def connect(db_name):
     try:
         global conn
@@ -273,11 +274,12 @@ def post_vote(pid, uid):
 
     return True
 
+
 def get_question_of_answer(answer_pid):
     # I will do this one - nayan
     try:
         c = conn.cursor()
-        
+
         c.execute('''
             select q.pid,
             q.theaid
@@ -288,10 +290,11 @@ def get_question_of_answer(answer_pid):
         ''', answer_pid)
 
         return c.fetchone()
-        
+
     except Exception as e:
         print(e)
         return None
+
 
 def mark_accepted(answer_pid, question_pid):
     try:
@@ -309,6 +312,7 @@ def mark_accepted(answer_pid, question_pid):
     except Exception as e:
         print(e)
         return False
+
 
 def add_tag(pid, tag):
     try:
@@ -328,6 +332,7 @@ def add_tag(pid, tag):
     except Exception as e:
         print(e)
         return False
+
 
 def edit_post(pid, title, body):
     try:
@@ -358,4 +363,4 @@ def edit_post(pid, title, body):
 
     except Exception as e:
         print(e)
-        return False 
+        return False
