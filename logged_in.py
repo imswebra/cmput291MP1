@@ -186,32 +186,29 @@ def post_vote(pid):
 
 def mark_as_accepted(pid):
     question = db.get_question_of_answer(pid)
+    if question is None:
+        print("Failed to find the question of this answer")
+        return
 
-    should_mark_accepted = True
-    if question is not None:
-        action = "1"
-        if question[1] is not None:
-            print('Replace current accepted answer?')
-            print('0 No')
-            print('1 Yes')
-            print('')
-
+    if question[1] is not None:
+        print("Mark answer as accepted")
+        print("The answer's question already has an accepted answer.")
+        print_options(["Cancel and go back", "Replace current accepted answer"])
+        while True:
             action = request_input()[0]
+            if action == "1":
+                print("The operation was cancelled")
+                return
+            elif action == "2":
+                break
+            else:
+                print_invalid_option(2)
 
-        if action == "0":
-            print("The answer will not be marked as accepted")
-            should_mark_accepted = False
+    mark_accepted_success = db.mark_accepted(pid, question[0])
+    if mark_accepted_success:
+        print("The answer was successfully marked as accepted")
     else:
-        print('Failed to mark the answer as accepted')
-        should_mark_accepted = False
-
-    if should_mark_accepted:
-        mark_accepted_success = db.mark_accepted(pid, question[0])
-
-        if mark_accepted_success:
-            print('The answer was marked accepted successfully')
-        else:
-            print('Failed to mark the answer as accepted')
+        print("Failed to mark the answer as accepted")
 
 
 def give_badge(pid):
