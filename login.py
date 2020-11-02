@@ -8,6 +8,11 @@ from utils import (
 
 
 def login_or_signup():
+    """Main login/signup routine
+    Returns 2 values. Both are None if the login/signup failed:
+        uid of the logged in user (string)
+        bool indicating if the user is a privileged user
+    """
     print('To exit program type `exit` at any point')
     print_options(["Login", "Sign-up"])
 
@@ -26,6 +31,11 @@ def login_or_signup():
 
 
 def login():
+    """User login routine
+    Returns 2 values. Both are None if the login failed:
+        uid of the logged in user (string)
+        bool indicating if the user is a privileged user
+    """
     print("To return to the main screen, type `back`")
     while (True):
         print("Enter: ID")
@@ -45,12 +55,15 @@ def login():
         if login_success:
             # Check if user is privileged
             is_privileged = db.check_privilege(login_values[0])
-            return True, login_values[0], login_values[1], is_privileged
+            return login_values[0], is_privileged
         else:
             print("Please try again")  # db.login handles some messaging before
 
 
 def signup():
+    """User signup routine
+    Returns the uid of the new user, None if signup failed
+    """
     print("To return to the main screen, type `back`")
     print("Enter: Id, Name, City")
     while(True):
