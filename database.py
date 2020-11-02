@@ -343,7 +343,7 @@ def give_badge(uid, badge_name):
         conn.commit()
     except sqlite3.IntegrityError as e:
         if "UNIQUE constraint failed" in str(e):
-            print("'{}' was already given to this user today".format(badge_name))
+            print("A badge was already given to this user today")
         else:
             print(e)
         return False
