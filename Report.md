@@ -56,7 +56,7 @@ The group work strategy between all the members was fairly loose and relaxed. We
 The full commit log can be viewed [here](https://github.com/imswebra/cmput291MP1/commits/master).
 
 #### Mitchell
-Time Estimate: ~14 hours
+Time Estimate: ~10-14 hours
 
 Tasks:
 - Building the initial program structure and program flow
