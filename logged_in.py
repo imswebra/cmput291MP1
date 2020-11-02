@@ -191,6 +191,10 @@ def mark_as_accepted(pid):
         return
 
     if question[1] is not None:
+        if question[1] == pid:
+            print("This answer is already marked as accepted")
+            return
+
         print("Mark answer as accepted")
         print("The answer's question already has an accepted answer.")
         print_options(["Cancel and go back", "Replace current accepted answer"])
