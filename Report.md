@@ -56,15 +56,24 @@ The group work strategy between all the members was fairly loose and relaxed. We
 The full commit log can be viewed [here](https://github.com/imswebra/cmput291MP1/commits/master).
 
 #### Mitchell
-Time Estimate:
+Time Estimate: ~14 hours
 
 Tasks:
-- Building the initial program structure
+- Building the initial program structure and program flow
+- Establish database connection
+- Create SQL files for testing
+- Develop utility functions
+- Develop sql utility functions (generate unique key)
+- Hide password
+- Exit program
 - Initial implementation of many of the required features:
-    - Sign-up and login process
-    - Post question, post answer post-action
-    - Search
+    - Sign-up process
+    - Login and logout
+    - Search for question by keywords
+    - Post a question
     - Vote post-action
+    - Post action-Answer
+    - Handle prviliged users
 
 #### Nayan
 Time Estimate:
