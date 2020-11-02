@@ -314,6 +314,46 @@ def mark_accepted(answer_pid, question_pid):
         return False
 
 
+def get_badges():
+    try:
+        c = conn.cursor()
+        c.execute("SELECT * FROM badges")
+        return c.fetchall()
+
+    except Exception as e:
+        print(e)
+        return None
+
+
+def give_badge(uid, badge_name):
+    try:
+        c = conn.cursor()
+        today = date.today()
+
+        c.execute('''
+            insert INTO ubadges VALUES
+            (:uid, :date, :bname)
+        ''', {
+                "uid": uid,
+                "date": today,
+                "bname": badge_name,
+            }
+        )
+
+        conn.commit()
+    except sqlite3.IntegrityError as e:
+        if "UNIQUE constraint failed" in str(e):
+            print("'{}' was already given to this user today".format(badge_name))
+        else:
+            print(e)
+        return False
+    except Exception as e:
+        print(e)
+        return False
+
+    return True
+
+
 def add_tag(pid, tag):
     try:
         c = conn.cursor()

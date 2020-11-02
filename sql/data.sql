@@ -31,3 +31,10 @@ insert into tags values ('4', 'pear');
 insert into votes values ('1',1,date('now','-5 days'),'1');
 insert into votes values ('1',2,date('now','-4 days'),'1');
 insert into votes values ('2',1,date('now','-3 days'),'3');
+
+insert into badges values ('Great post', 'Gold');
+insert into badges values ('Best answer', 'Gold');
+insert into badges values ('Original post', 'Silver');
+insert into badges values ('Interesting question', 'Silver');
+insert into badges values ('Good post', 'Bronze');
+insert into badges values ('Decent post', 'Bronze');

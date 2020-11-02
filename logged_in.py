@@ -152,7 +152,7 @@ def post_action(post):
             mark_as_accepted(pid)
         # Post action-give a badge
         elif (action == "4") and is_privileged:
-            give_badge(pid)
+            give_badge(post[4])
         # Post post action-add a tag
         elif (action == "5") and is_privileged:
             add_tag(pid)
@@ -215,8 +215,56 @@ def mark_as_accepted(pid):
         print("Failed to mark the answer as accepted")
 
 
-def give_badge(pid):
-    pass
+def give_badge(poster_uid):
+    results = db.get_badges()
+    if results is None:
+        print("Failed to retrieve list of badges")
+        return
+
+    print("Give poster a badge")
+    print("Choose a badge to give to the user:")
+    print("To go back, type `back`")
+    min_i, max_i = get_min_max_index(results=results)
+    print("")
+    print_badges(results, min_i, max_i)
+
+    # Select badge
+    while (True):
+        action = request_input()[0]
+
+        if action == "more":
+            if len(results) <= max_i:
+                print("No more results are available")
+                continue
+
+            # Increment the min and max
+            min_i, max_i = get_min_max_index(
+                results=results,
+                old_min=min_i,
+                old_max=max_i
+            )
+            print_badges(results, min_i, max_i)
+        elif action == "back":
+            return
+        elif action == "logout":
+            return None, True
+        elif is_index(action, results):
+            break
+        else:
+            print_invalid_option(max_option=len(results))
+
+    give_badge_success = db.give_badge(poster_uid, results[int(action)][0])
+    if give_badge_success:
+        print("The badge was successfully given to the poster")
+    else:
+        print("Failed to give the badge to the poster")
+
+
+def print_badges(results, min_i, max_i):
+    print("index, name, type")
+    for i, row in enumerate(results[min_i:max_i], min_i):
+        print(("{}: {}, {}").format(i, *row))
+    print("")
 
 
 def add_tag(pid):
