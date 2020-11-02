@@ -152,7 +152,9 @@ def post_action(post):
             mark_as_accepted(pid)
         # Post action-give a badge
         elif (action == "4") and is_privileged:
-            give_badge(post[4])
+            logout = give_badge(post[4])
+            if logout:
+                return True
         # Post post action-add a tag
         elif (action == "5") and is_privileged:
             add_tag(pid)
@@ -245,9 +247,9 @@ def give_badge(poster_uid):
             )
             print_badges(results, min_i, max_i)
         elif action == "back":
-            return
+            return False
         elif action == "logout":
-            return None, True
+            return True
         elif is_index(action, results):
             break
         else:
@@ -258,6 +260,7 @@ def give_badge(poster_uid):
         print("The badge was successfully given to the poster")
     else:
         print("Failed to give the badge to the poster")
+    return False
 
 
 def print_badges(results, min_i, max_i):
