@@ -27,8 +27,9 @@ def login_or_signup():
 
 def login():
     print("To return to the main screen, type `back`")
-    print("Enter: Id")
     while (True):
+        print("Enter: ID")
+
         # login_values will have len of 2 (1 + pass)
         login_values = request_input(expected_len=1, logout_allowed=False, password=True)
         if not login_values:
@@ -46,7 +47,7 @@ def login():
             is_privileged = db.check_privilege(login_values[0])
             return True, login_values[0], login_values[1], is_privileged
         else:
-            print("Login failed, please try again")
+            print("Please try again")  # db.login handles some messaging before
 
 
 def signup():

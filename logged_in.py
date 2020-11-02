@@ -25,7 +25,9 @@ def logged_in(uid_param, is_privileged_param):
 
         action = request_input()[0]
 
-        if (action == "logout"):
+        if action == "back":
+            print("At the top-level menu. To logout, type `logout`.")
+        elif (action == "logout"):
             return
         # Post a Question
         elif (action == "1"):
@@ -276,7 +278,7 @@ def add_tag(pid):
     add_tag_success = db.add_tag(pid, tag)
 
     if add_tag_success:
-        print("Successfully added a tag")
+        print("Tag successfully added")
     else:
         print("Failed to add a tag")
 

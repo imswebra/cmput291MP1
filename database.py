@@ -89,7 +89,7 @@ def login(uid, pwd):
 
         row = c.fetchone()
         if row is None:
-            print("Could not find user")
+            print("No matching ID and password was found")
             return False
         else:
             return True
