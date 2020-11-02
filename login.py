@@ -19,7 +19,7 @@ def login_or_signup():
             return login()
         # Sign up
         elif action == '2':
-            return signup()
+            return signup(), False
         # Invalid selection
         else:
             print_invalid_option(max_option=2)
@@ -36,7 +36,7 @@ def login():
             continue
 
         if login_values[0] == "back":
-            return False, None, None, None
+            return None, None
 
         # Attempt to login
         login_success = db.login(
@@ -60,7 +60,7 @@ def signup():
             continue
 
         if sign_up_values[0] == "back":
-            return False, None, None, None
+            return None
 
         # Attempt to sign up
         sign_up_success = db.sign_up(
@@ -71,6 +71,6 @@ def signup():
         )
 
         if sign_up_success:
-            return True, sign_up_values[0], sign_up_values[3], False
+            return sign_up_values[0]
         else:
             print("Sign up failed, please try again")
