@@ -2,6 +2,7 @@ import database as db
 
 from utils import (
     request_input,
+    keyword_input_validate,
     print_options,
     print_invalid_option,
     get_indices_range,
@@ -22,43 +23,51 @@ def logged_in(uid_param, is_privileged_param):
     is_privileged = is_privileged_param
 
     print("Now logged in. To log out, type `/logout` at anytime.")
+    print("In any submenu or input, type `/back` to return up a level.")
     while (True):
         print_options(["Post a question", "Search posts"])
 
         action = request_input()[0]
 
+        logout = None
         if action == "/back":
             print("Already at the top-level menu. To logout, type `/logout`.")
         elif (action == "/logout"):
-            return
+            logout = True
         # Post a Question
         elif (action == "1"):
-            post_question()
+            logout = post_question()
+            print("")
         # Search for posts
         elif (action == "2"):
             post, logout = search_select_posts()
-            if logout:
-                return
-            if post is None:  # Back was used
-                continue
-            logout = post_action(post)
-            if logout:
-                return
+            if not logout and post is not None:
+                logout = post_action(post)
         # Invalid selection
         else:
             print_invalid_option(max_option=2)
+
+        if logout:
+            return
 
 
 def post_question():
     print("Post Question")
     title_text = input("Enter title: ")
+    to_return, return_val = keyword_input_validate(title_text)
+    if to_return:
+        return return_val
+
     body_text = input("Enter body: ")
+    to_return, return_val = keyword_input_validate(body_text)
+    if to_return:
+        return return_val
+
     post_success = db.post_question(title_text, body_text, uid)
     if post_success:
         print("Question successfully posted")
     else:
         print("Question failed to post")
-    print("")
 
 
 def search_select_posts():
@@ -66,11 +75,12 @@ def search_select_posts():
     while (True):
         print("Enter keywords separated by a comma:")
         keywords = request_input()
+        if keywords[0] == "/back":
+            return None, False
+        elif keywords[0] == "/logout":
+            return None, True
+
         results = db.search_posts(keywords)
-
-        # TODO: Handle back/logout here? Would limit keywords in the search but
-        # we are handling exit, should we be consistent?
-
         if len(results) > 0:
             break
         print("No results found for keywords:", str(keywords), "\n")
@@ -78,7 +88,6 @@ def search_select_posts():
 
     # List results
     print("Showing results for keywords", str(keywords))
-    print("To go back, type `/back`")
     print("Enter the index of the post to excute an action on that post:")
     min_i, max_i = get_indices_range(results=results)
     print("")
@@ -101,8 +110,6 @@ def search_select_posts():
             )
             print_search_results(results, min_i, max_i)
         elif action == "/back":
-            # Should go to main menu (post/search selection). If "continue"
-            # is used, user will go back to keyword input and will be stuck
             return None, False
         elif action == "/logout":
             return None, True
@@ -150,23 +157,23 @@ def post_action(post):
 
     while(True):
         print("Selected post pid is:", pid)
-        print("To go back, type `/back`")
         print_options(pa_actions, skip_actions)
         action = request_input()[0]
 
+        logout = None
         if action == "/back":
-            return False
+            return
         elif action == "/logout":
-            return True
+            logout = True
         # Post action-answer
         elif (action == "1") and is_question:
-            post_answer(pid)
+            logout = post_answer(pid)
         # Post action-vote
         elif (action == "2"):
             post_vote(pid)
         # Post action-mark as accepted
         elif (action == "3") and is_privileged and not is_question:
-            mark_as_accepted(pid)
+            logout = mark_as_accepted(pid)
         # Post action-give a badge
         elif (action == "4") and is_privileged:
             logout = give_badge(post[4])
@@ -174,20 +181,31 @@ def post_action(post):
                 return True
         # Post post action-add a tag
         elif (action == "5") and is_privileged:
-            add_tag(pid)
+            logout = add_tag(pid)
         # Post action-edit:
         elif (action == "6") and is_privileged:
-            edit_post(pid)
+            logout = edit_post(pid)
         # Invalid selection
         else:
             print_invalid_option()
+
+        if logout:  # Either True, False or None
+            return True
         print("")
 
 
 def post_answer(pid):
     print("Post Answer")
     title_text = input("Enter title: ")
+    to_return, return_val = keyword_input_validate(title_text)
+    if to_return:
+        return return_val
+
     body_text = input("Enter body: ")
+    to_return, return_val = keyword_input_validate(body_text)
+    if to_return:
+        return return_val
+
     post_success = db.post_answer(title_text, body_text, uid, pid)
     if post_success:
         print("Answer successfully posted")
@@ -219,7 +237,9 @@ def mark_as_accepted(pid):
         print_options(["Cancel and go back", "Replace current accepted answer"])
         while True:
             action = request_input()[0]
-            if action == "1":
+            if action == "/logout":
+                return True
+            if action == "1" or action == "/back":
                 print("The operation was cancelled")
                 return
             elif action == "2":
@@ -242,7 +262,6 @@ def give_badge(poster_uid):
 
     print("Give poster a badge")
     print("Choose a badge to give to the user:")
-    print("To go back, type `/back`")
     min_i, max_i = get_indices_range(results=results)
     print("")
     print_badges(results, min_i, max_i)
@@ -264,7 +283,7 @@ def give_badge(poster_uid):
             )
             print_badges(results, min_i, max_i)
         elif action == "/back":
-            return False
+            return
         elif action == "/logout":
             return True
         elif is_index(action, results):
@@ -278,7 +297,6 @@ def give_badge(poster_uid):
         print("The badge was successfully given to the poster")
     else:
         print("Failed to give the badge to the poster")
-    return False
 
 
 def print_badges(results, min_i, max_i):
@@ -296,8 +314,11 @@ def print_badges(results, min_i, max_i):
 def add_tag(pid):
     print('Add tag')
     tag = input('Enter a tag: ')
-    add_tag_success = db.add_tag(pid, tag)
+    to_return, return_val = keyword_input_validate(tag)
+    if to_return:
+        return return_val
 
+    add_tag_success = db.add_tag(pid, tag)
     if add_tag_success:
         print("Tag successfully added")
     else:
@@ -311,10 +332,17 @@ def edit_post(pid):
     body = ""
     while title == "" and body == "":
         title = input('Enter new title (leave blank to keep old title): ')
+        to_return, return_val = keyword_input_validate(title)
+        if to_return:
+            return return_val
+
         body = input('Enter new body (leave blank to keep old body): ')
+        to_return, return_val = keyword_input_validate(title)
+        if to_return:
+            return return_val
 
         if title == "" and body == "":
-            print('Atleast one of title and body must be entered')
+            print("At least one of title or body must be entered")
         print('')
 
     edit_post_success = db.edit_post(pid, title, body)

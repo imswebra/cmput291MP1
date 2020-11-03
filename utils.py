@@ -8,7 +8,7 @@ def split_and_strip(input_val):
 
 
 def request_input(expected_len=0, logout_allowed=True, password=False):
-    """Requests input from user.
+    """Requests comma seperated input from user.
     Takes three optional parameters.
     If expected_len is specificed, this function will handle error messages and
     and return none when the number inputs recieved does not match expected_len,
@@ -39,6 +39,23 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
 
     print('')
     return values
+
+
+def keyword_input_validate(str):
+    """Validates input string for keywords
+    Utility function to validate string from a manual input() call when using
+    request_input isn't appropriate. Returns two boolean values, the first
+    being whether or not to return (true if str == keyword), the second being
+    what the return value should be.
+    """
+    stripped = str.strip()
+    if stripped == "/exit":
+        exit(0)
+    elif stripped == "/back":
+        return True, False
+    elif stripped == "/logout":
+        return True, True
+    return False, False
 
 
 def print_invalid_input(len_tuple=None):
