@@ -363,7 +363,7 @@ def post_vote(pid, uid):
 
         row = c.fetchone()
         if row is not None:
-            # User already voted
+            print("You have already voted on this post")
             return False
 
         # Get the next vote number
