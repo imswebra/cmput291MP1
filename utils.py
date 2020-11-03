@@ -239,7 +239,7 @@ def is_index(s, results):
         (bool): True if the string is an index into results, False otherwise
     """
     try:
-        if int(s) - 1 < len(results):
+        if int(s) - 1 < len(results) and int(s) - 1 >= 0:
             return True
         else:
             return False

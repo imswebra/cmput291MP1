@@ -1,6 +1,4 @@
 import unittest
-# import unittest.mock
-from unittest.mock import patch, PropertyMock
 import random
 import os
 
@@ -13,7 +11,7 @@ class TestDatabase(unittest.TestCase):
         db.connect('unittest_database.db')
 
     def test_count_keywords(self):
-        self.assertEquals(db.count_keywords("Green apples are tasty", "Tasty apples are green", "Nothing", "green tasty"), 4)
+        self.assertEquals(db.count_keywords("Green apples are tasty", "Tasty apples are green", "Nothing", "green tasty"), 2)
 
     def test_connect(self):
         self.assertTrue(db.connect('database.db'))
@@ -35,12 +33,6 @@ class TestDatabase(unittest.TestCase):
     def test_check_privilege(self):
         self.assertTrue(db.check_privilege("1"))
         self.assertFalse(db.check_privilege("2"))
-
-    # TODO: need to find a way to test the specific cursor.lastrowid of the cursor within post_question
-    # def test_post_question(self):
-    #     random.seed(0)
-    #     self.assertTrue(db.post_question("New question", "New question body", "1"))
-    #     self.assertEquals(db.conn.cursor().lastrowid, '6604')
 
     def test_search_posts(self):
         expected = [
@@ -71,9 +63,9 @@ class TestDatabase(unittest.TestCase):
         self.assertEquals(db.get_badges(), expected)
 
     def test_case_insensitive_tag(self):
-        self.assertFalse(db.check_post_has_tag("1", "BANANA"))
+        self.assertFalse(db.check_has_case_insensitive_entry("tags", ["pid", "tag"], ["1", "BANANA"]))
         self.assertTrue(db.add_tag("1", "banana"))
-        self.assertTrue(db.check_post_has_tag("1", "BaNaNa"))
+        self.assertTrue(db.check_has_case_insensitive_entry("tags", ["pid", "tag"], ["1", "BaNaNa"]))
 
 if __name__ == '__main__':
     unittest.main()
