@@ -512,41 +512,6 @@ def give_badge(uid, badge_name):
 
     return True
 
-
-def check_post_has_tag(pid, tag):
-    """Returns true a post already has a case-insensitive tag, false otherwise
-
-    Args:
-        pid (str): The post ID which is being checked if it has tag
-        tag (str): The string of the tag to check if a post has
-
-    Returns:
-        (bool): True if post has tag, False otherwise
-    """
-    try:
-        c = conn.cursor()
-
-        c.execute('''
-            SELECT * FROM tags
-            WHERE pid =:pid
-            AND lower(tag) =:tag
-        ''', {
-                "pid": pid,
-                "tag": tag.lower()
-            }
-        )
-
-        row = c.fetchone()
-
-        if row is None:
-            return False
-        return True
-
-    except Exception as e:
-        print(e)
-        return True
-
-
 def add_tag(pid, tag):
     """Adds the given tag to a given post
 
@@ -623,6 +588,17 @@ def edit_post(pid, title, body):
         return False
 
 def check_has_case_insensitive_entry(table_name, column_names, values):
+    """Returns True a table already has a case-insensitive value, else False
+
+    Args:
+        table_name (str): The table in which case-insensitivity is checked
+        column_names ([str]): A list of columns to check
+        values ([str]): A list of values to check each corresponding to its
+            similarly indexed value in column_names
+
+    Returns:
+        (bool): True if table has value in column_name, False otherwise
+    """
     try:
         c = conn.cursor()
 
