@@ -71,8 +71,8 @@ def print_invalid_option(max_option=None):
         print("Invalid option")
 
 
-def get_min_max_index(results, old_min=-5, old_max=0):
-    """Returns minimum and maximum indices into results, limiting to 5 results
+def get_indices_range(results, old_min=-5, old_max=0):
+    """Returns minimum and maximum indices for a range slice on results
     Utility function for showing a maximum of 5 results at a time. On first
     use, the caller should ignore the optional old_min and old_max parameters.
     Afterwards, the results from the first use should be used for these
@@ -80,9 +80,9 @@ def get_min_max_index(results, old_min=-5, old_max=0):
     """
     increment = 5
     new_min = old_min + increment
-    new_max = min(old_max + increment, len(results) - 1)
+    new_max = min(old_max + increment, len(results))
 
-    if len(results) - 1 > new_max:
+    if len(results) > new_max:
         print("Type `more` to see more results")
     return new_min, new_max
 
