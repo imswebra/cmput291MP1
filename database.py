@@ -107,6 +107,11 @@ def sign_up(uid, name, city, pwd):
     try:
         c = conn.cursor()
         today = date.today()
+
+        if (check_has_case_insensitive_entry("users", ["uid"], [uid])):
+            print("This username has already been created (usernames are case-insensitive)")
+            return False
+
         c.execute('''
             INSERT INTO users VALUES
             (:uid, :name, :pwd, :city, :date)
@@ -486,6 +491,10 @@ def give_badge(uid, badge_name):
         c = conn.cursor()
         today = date.today()
 
+        if (check_has_case_insensitive_entry("ubadges", ["uid", "date", "bname"], [uid, today, badge_name])):
+            print("This badge has already been added to this post (badges are case-insensitive)")
+            return False
+
         c.execute('''
             insert INTO ubadges VALUES
             (:uid, :date, :bname)
@@ -552,7 +561,7 @@ def add_tag(pid, tag):
         True on success, False otherwise
     """
     try:
-        if (check_post_has_tag(pid, tag)):
+        if (check_has_case_insensitive_entry("tags", ["pid", "tag"], [pid, tag])):
             print("This tag has already been added to this post (tags are case-insensitive)")
             return False
 
@@ -615,3 +624,29 @@ def edit_post(pid, title, body):
     except Exception as e:
         print(e)
         return False
+
+def check_has_case_insensitive_entry(table_name, column_names, values):
+    try:
+        c = conn.cursor()
+
+        sql = 'SELECT * FROM {} WHERE'.format(
+                table_name
+        )
+        for i in range(len(column_names)):
+            sql += ' LOWER({}) = \'{}\''.format(column_names[i], values[i].lower())
+            if i == len(column_names) - 1:
+                sql += ';'
+            else:
+                sql += ' AND'
+
+        c.execute(sql)
+
+        row = c.fetchone()
+
+        if row is None:
+            return False
+        return True
+
+    except Exception as e:
+        print(e)
+        return True
