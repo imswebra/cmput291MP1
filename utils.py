@@ -8,26 +8,25 @@ def split_and_strip(input_val):
 
 
 def request_input(expected_len=0, logout_allowed=True, password=False):
-    """Requests input from user.
+    """Requests comma seperated input from user.
     Takes three optional parameters.
     If expected_len is specificed, this function will handle error messages and
     and return none when the number inputs recieved does not match expected_len,
-    except for when a keyword such as exit, back, or logout is input. Passwords
-    do not contribute to the number of inputs count.
-    Logout_allowed specifies whether "logout" should be considered a keyword.
+    except for when a keyword such as /exit, /back, or /logout is input.
+    Passwords do not contribute to the number of inputs count.
+    Logout_allowed specifies whether "/logout" should be considered a keyword.
     Password specifies whether the input should prompt for a password after the
     regular input.
     """
     response = input('Input: ')
     values = split_and_strip(response)
 
-    if values[0] == "exit":
+    if values[0] == "/exit":
         exit(0)
 
+    keywords = ["/back"]
     if logout_allowed:
-        keywords = {"back", "logout"}
-    else:
-        keywords = {"back"}
+        keywords += "/logout"
 
     if (expected_len > 0 and values[0] not in keywords
             and len(values) != expected_len):
@@ -40,6 +39,23 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
 
     print('')
     return values
+
+
+def keyword_input_validate(str):
+    """Validates input string for keywords
+    Utility function to validate string from a manual input() call when using
+    request_input isn't appropriate. Returns two boolean values, the first
+    being whether or not to return (true if str == keyword), the second being
+    what the return value should be.
+    """
+    stripped = str.strip()
+    if stripped == "/exit":
+        exit(0)
+    elif stripped == "/back":
+        return True, False
+    elif stripped == "/logout":
+        return True, True
+    return False, False
 
 
 def print_invalid_input(len_tuple=None):
