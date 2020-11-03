@@ -8,11 +8,12 @@ from utils import (
 
 
 def login_or_signup():
-    """Main login/signup routine
-    
-    Returns 2 values. Both are None if the login/signup failed:
-        uid of the logged in user (string)
-        bool indicating if the user is a privileged user
+    """The execution loop for a user to login or signup
+
+    Returns:
+        (str): The uid of the logged in user, None if login/signup failed
+        (bool): True if user is priviledged, False if user is not priviledged,
+            None if login/signup failed
     """
     print("To exit program type `/exit` at any point")
     print_options(["Login", "Sign-up"])
@@ -32,11 +33,12 @@ def login_or_signup():
 
 
 def login():
-    """User login routine
+    """Allows user to login into an existing account
 
-    Returns 2 values. Both are None if the login failed:
-        uid of the logged in user (string)
-        bool indicating if the user is a privileged user
+    Returns:
+        (str): The uid of the logged in user, None if login failed
+        (bool): True if user is priviledged, False if user is not priviledged,
+            None if login failed
     """
     print("To return to the main screen, type `/back`")
     while (True):
@@ -63,9 +65,10 @@ def login():
 
 
 def signup():
-    """User signup routine
+    """Allows user to sign up for a new account
 
-    Returns the uid of the new user, None if signup failed
+    Returns:
+        (str): The uid of the signed-up user, None if signup failed
     """
     print("To return to the main screen, type `/back`")
     while(True):
