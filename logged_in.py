@@ -16,6 +16,12 @@ is_privileged = None
 
 
 def logged_in(uid_param, is_privileged_param):
+    """
+    The execution loop for a user once logged in
+    Parameters:
+        uid_param (str): the uid of the logged in user 
+        is_privileged_param (bool): True if privileged user, False otherwise
+    """
     global uid
     uid = uid_param
     global is_privileged
@@ -50,6 +56,9 @@ def logged_in(uid_param, is_privileged_param):
 
 
 def post_question():
+    """
+    Walks a user through inputting the required fields to post a question
+    """
     print("Post Question")
     title_text = input("Enter title: ")
     body_text = input("Enter body: ")
@@ -62,6 +71,15 @@ def post_question():
 
 
 def search_select_posts():
+    """
+    Walks a user through inputting the required fields to search for posts.
+    Then, acts as the execution loop to allow a user to select one of the
+    resulting posts from the search
+    Returns:
+        (post_row, bool): The first value in the tuple is the row entry of the
+            selected post, or None if user exits. The second value in the tuple
+            is True if a user wants to logout and False otherwise
+    """
     # Search posts
     while (True):
         print("Enter keywords separated by a comma:")
@@ -114,6 +132,13 @@ def search_select_posts():
 
 
 def print_search_results(results, min_i, max_i):
+    """
+    Prints the formatted results from a search of posts
+    Parameters:
+        results ([row_value]): The list of post rows
+        min_i (int): The minimum index within results to be printed
+        max_i (int): The maximum index within results to be printed
+    """
     # Get table
     max_widths = {2: 20, 3: 30}  # title and body (index 2 and 3) before index
     header = ["i", "pid", "pdate", "title", "body", "poster",
@@ -133,6 +158,14 @@ def print_search_results(results, min_i, max_i):
 
 
 def post_action(post):
+    """
+    The execution loop of a user to take post_actions after selecting a
+    resulting post from a search
+    Parameters:
+        post (post_row): The post on which post_actions are being executed
+    Returns:
+        (bool): True if the user chooses to logout, False otherwise
+    """
     # Get post info
     pid = post[0]
     # Checking answer count to determine post type
@@ -185,6 +218,12 @@ def post_action(post):
 
 
 def post_answer(pid):
+    """
+    Walks a user through inputting the required fields to post an answer
+    to a selected question
+    Parameters:
+        pid (str): The pid of the question which is being answered
+    """
     print("Post Answer")
     title_text = input("Enter title: ")
     body_text = input("Enter body: ")
@@ -196,6 +235,12 @@ def post_answer(pid):
 
 
 def post_vote(pid):
+    """
+    Walks a user through inputting the required fields to post a vote on
+    a selected post
+    Parameters:
+        pid (str): The pid of the post which is being voted on
+    """
     vote_success = db.post_vote(pid, uid)
     if vote_success:
         print("Vote successfully posted")
@@ -204,6 +249,12 @@ def post_vote(pid):
 
 
 def mark_as_accepted(pid):
+    """
+    Walks a user through inputting the required fields to mark a selected
+    answer as accepted
+    Parameters:
+        pid (str): The pid of the answer which is being accepted
+    """
     question = db.get_question_of_answer(pid)
     if question is None:
         print("Failed to find the question of this answer")
@@ -235,6 +286,12 @@ def mark_as_accepted(pid):
 
 
 def give_badge(poster_uid):
+    """
+    Walks a user through inputting the required fields to give a selected
+    post's poster a badge
+    Parameters:
+        poster_uid (str): The uid of the poster who is being given a badge
+    """
     results = db.get_badges()
     if results is None:
         print("Failed to retrieve list of badges")
@@ -282,6 +339,13 @@ def give_badge(poster_uid):
 
 
 def print_badges(results, min_i, max_i):
+    """
+    Prints the formatted results from a list of badges
+    Parameters:
+        results ([badge_value]): The list of badge rows
+        min_i (int): The minimum index within results to be printed
+        max_i (int): The maximum index within results to be printed
+    """
     # Get table
     header = ["i", "name", "type"]
     table, widths = get_table_info(results[min_i:max_i], header,
@@ -294,6 +358,12 @@ def print_badges(results, min_i, max_i):
 
 
 def add_tag(pid):
+    """
+    Walks a user through inputting the required fields to give a selected
+    post a new tag
+    Parameters:
+        pid (str): The pid of the post of which the new tag will be added
+    """
     print('Add tag')
     tag = input('Enter a tag: ')
     add_tag_success = db.add_tag(pid, tag)
@@ -305,6 +375,12 @@ def add_tag(pid):
 
 
 def edit_post(pid):
+    """
+    Walks a user through inputting the required fields to edit the title
+    and body of a selected post
+    Parameters:
+        pid (str): The pid of the post which is being editted
+    """
     print('Edit the title and/or body of a post')
 
     title = ""
