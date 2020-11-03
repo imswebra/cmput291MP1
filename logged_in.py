@@ -20,7 +20,7 @@ def logged_in(uid_param, is_privileged_param):
     """The execution loop for a user once logged in
 
     Args:
-        uid_param (str): the uid of the logged in user
+        uid_param (str): The uid of the logged in user
         is_privileged_param (bool): True if privileged user, False otherwise
     """
     global uid
@@ -142,7 +142,7 @@ def print_search_results(results, min_i, max_i):
     """Prints the formatted results from a search of posts
 
     Args:
-        results ([row_value]): The list of post rows
+        results ([results row]): The list of search result rows
         min_i (int): The minimum index of the printed results range (inclusive)
         max_i (int): The maximum index of the printed results range (exclusive)
     """
@@ -364,7 +364,7 @@ def print_badges(results, min_i, max_i):
     """Prints the formatted results from a list of badges
 
     Args:
-        results ([badge_value]): The list of badge rows
+        results ([badge row]): The list of badge rows
         min_i (int): The minimum index of the printed results range (inclusive)
         max_i (int): The maximum index of the printed results range (exclusive)
     """
