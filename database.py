@@ -7,6 +7,17 @@ conn = None
 
 
 def count_keywords(string1, string2, keywords):
+    """
+    Counts the number of occurrence of each keyword of the keyword
+    list within string1 and string2
+    Parameters:
+        string1 (str): The first string to check keyword occurence within
+        string2 (str): The second string to check keyword occurence within
+        keywords ([str]): a list of keywords to check for occurences within
+            string1 and string2
+    Returns:
+        the number of keyword occurences
+    """
     try:
         total_count = 0
         keywords = keywords.split()
@@ -20,6 +31,14 @@ def count_keywords(string1, string2, keywords):
 
 
 def connect(db_name):
+    """
+    Attempts to connect to a database of a given name. Also adds the
+    custom function 'count_keywords' to the database connection
+    Parameters:
+        db_name (str): the name of the database to connect to
+    Returns:
+        True on connection success, False otherwise
+    """
     try:
         global conn
         conn = sqlite3.connect(db_name)
@@ -32,6 +51,16 @@ def connect(db_name):
 
 
 def generate_unique_key(length, table, col_name):
+    """
+    Creates a new unique key for a column within a table
+    Parameters:
+        length (int): the desired length of a the key
+        table (str): the table within which the key should be unique
+        col_name (str): the table's column within which the the key should
+            be unique
+    Returns:
+        (int): the generated unique key
+    """
     while(True):
         key = ''.join(random.choice(string.digits) for _ in range(length))
 
@@ -51,6 +80,16 @@ def generate_unique_key(length, table, col_name):
 
 
 def sign_up(uid, name, city, pwd):
+    """
+    Creates a new user
+    Parameters:
+        uid (str): the user id to attempt to signup
+        name (str): the name of the new user attempting to signup
+        city (str): the city of the new user attempting to signup
+        pwd (str): the password to attempt to signup uid's account with
+    Returns:
+        True on signup success, False otherwise
+    """
     try:
         c = conn.cursor()
         today = date.today()
@@ -81,6 +120,14 @@ def sign_up(uid, name, city, pwd):
 
 
 def login(uid, pwd):
+    """
+    Checks if a given uid and password match any users
+    Parameters:
+        uid (str): the user id to attempt to login
+        pwd (str): the password to attempt to log into uid's account with
+    Returns:
+        True on login success, False otherwise
+    """
     try:
         c = conn.cursor()
         c.execute('''
@@ -106,6 +153,13 @@ def login(uid, pwd):
 
 
 def check_privilege(uid):
+    """
+    Checks if a given uid is a privileged user or not
+    Parameters:
+        uid (str): the user id to check if privileged
+    Returns:
+        True if privileged, False otherwise
+    """
     try:
         c = conn.cursor()
         c.execute('''
@@ -129,7 +183,15 @@ def check_privilege(uid):
 
 
 def post_question(title, body, uid):
-
+    """
+    Allows a user to post a new question
+    Parameters:
+        title (str): the title of the new question post
+        body (str): the body of the new question post
+        uid (str): the uid of the question's poster
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
         today = date.today()
@@ -161,6 +223,16 @@ def post_question(title, body, uid):
 
 
 def search_posts(keywords):
+    """
+    Allows a user to search all posts related by a 
+    Parameters:
+        title (str): the title of the new answer post
+        body (str): the body of the new answer post
+        uid (str): the uid of the answer's poster
+        qid (str): the question id which is being answer
+    Returns:
+        True on success, False otherwise
+    """
     # Get posts with keywords
     keywords = [s.lower() for s in keywords]
     joined_keywords = " ".join(keywords)
@@ -216,6 +288,16 @@ def search_posts(keywords):
 
 
 def post_answer(title, body, uid, qid):
+    """
+    Allows a user to post an answer to a question, marked by qid
+    Parameters:
+        title (str): the title of the new answer post
+        body (str): the body of the new answer post
+        uid (str): the uid of the answer's poster
+        qid (str): the question id which is being answer
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
         today = date.today()
@@ -247,6 +329,14 @@ def post_answer(title, body, uid, qid):
 
 
 def post_vote(pid, uid):
+    """
+    Allows a user to vote on a post
+    Parameters:
+        pid (str): the post id which is being given a vote
+        uid (str): the user which is voting on the post
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
         today = date.today()
@@ -282,6 +372,14 @@ def post_vote(pid, uid):
 
 
 def get_question_of_answer(answer_pid):
+    """
+    Returns the question which corresponds to a given answer post id
+    Parameters:
+        answer_pid (str): the post id of the answer whose corresponding
+            question is to be returned
+    Returns:
+        the question entry that corresponds to the provided answer_pid
+    """
     try:
         c = conn.cursor()
 
@@ -303,6 +401,17 @@ def get_question_of_answer(answer_pid):
 
 
 def mark_accepted(answer_pid, question_pid):
+    """
+    Allows a privileged user to mark an answer as the accepted answer
+    for its corresponding question post
+    Parameters:
+        answer_pid (str): the post id of the answer that is being
+            marked as accepted
+        question_pid (str): the post id of the question post whose
+            theaid value is being set to answer_pid
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
 
@@ -321,6 +430,11 @@ def mark_accepted(answer_pid, question_pid):
 
 
 def get_badges():
+    """
+    Retrieves the list of all possible badges
+    Returns:
+        All entries from the badges table
+    """
     try:
         c = conn.cursor()
         c.execute("SELECT * FROM badges")
@@ -332,6 +446,14 @@ def get_badges():
 
 
 def give_badge(uid, badge_name):
+    """
+    Allows a privileged user to give a user a badge on today's date
+    Parameters:
+        uid (str): the uid of which to give a badge
+        badge_name (str): the name of the badge which is being given
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
         today = date.today()
@@ -361,6 +483,14 @@ def give_badge(uid, badge_name):
 
 
 def add_tag(pid, tag):
+    """
+    Allows a privileged user to add a tag to a post
+    Parameters:
+        pid (str): the post ID which is being given the tag
+        tag (str): the string of the tag which is being added to the post
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
 
@@ -375,16 +505,29 @@ def add_tag(pid, tag):
         conn.commit()
         return True
 
-    except Exception as e:
-        if (str(e) == "UNIQUE constraint failed: tags.pid, tags.tag"):
+    except sqlite3.IntegrityError as e:
+        if ("UNIQUE constraint failed" in str(e)):
             print("This tag has already been added to this post (tags are case-insensitive)")
         else:
             print(e)
 
         return False
+    except Exception as e:
+        print(e)
+
+        return False
 
 
 def edit_post(pid, title, body):
+    """
+    Allows a privileged user to edit the title and body of a post
+    Parameters:
+        pid (str): the post ID which is being editted
+        title (str): the new title to assign to the post
+        body (str): the new body to assign to the post
+    Returns:
+        True on success, False otherwise
+    """
     try:
         c = conn.cursor()
 
