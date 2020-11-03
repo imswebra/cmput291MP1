@@ -3,11 +3,12 @@ from getpass import getpass
 
 
 def split_and_strip(input_val):
+    """Splits input on commas and strips away whitespace"""
     return [x.strip() for x in str(input_val).split(',')]
 
 
 def request_input(expected_len=0, logout_allowed=True, password=False):
-    '''Requests input from user.
+    """Requests input from user.
     Takes three optional parameters.
     If expected_len is specificed, this function will handle error messages and
     and return none when the number inputs recieved does not match expected_len,
@@ -16,7 +17,7 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
     Logout_allowed specifies whether "logout" should be considered a keyword.
     Password specifies whether the input should prompt for a password after the
     regular input.
-    '''
+    """
     response = input('Input: ')
     values = split_and_strip(response)
 
@@ -42,10 +43,10 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
 
 
 def print_invalid_input(len_tuple=None):
-    '''Prints an invalid input message.
+    """Prints an invalid input message.
     Takes optional tuple of the form (expected_num_items, received_num_items)
     for "Expected #, got #" style messages.
-    '''
+    """
     if len_tuple:
         print("Invalid input, expected", len_tuple[0], "items, got", len_tuple[1])
     else:
@@ -53,7 +54,7 @@ def print_invalid_input(len_tuple=None):
 
 
 def print_options(options, skip_options=[]):
-    '''Prints the given options, skipping the skip_options'''
+    """Prints the given options, skipping the skip_options"""
     print("Enter:")
     for i, option in enumerate(options, 1):
         if option not in skip_options:
@@ -61,9 +62,9 @@ def print_options(options, skip_options=[]):
 
 
 def print_invalid_option(max_option=None):
-    '''Prints an invalid option message.
+    """Prints an invalid option message.
     If max_option specified, prints message with usage hint.
-    '''
+    """
     if max_option:
         print("Invalid option, expected option between 1 and", max_option)
     else:
@@ -71,6 +72,12 @@ def print_invalid_option(max_option=None):
 
 
 def get_min_max_index(results, old_min=-5, old_max=0):
+    """Returns minimum and maximum indices into results, limiting to 5 results
+    Utility function for showing a maximum of 5 results at a time. On first
+    use, the caller should ignore the optional old_min and old_max parameters.
+    Afterwards, the results from the first use should be used for these
+    optional parameters so they are incremented accordingly.
+    """
     increment = 5
     new_min = old_min + increment
     new_max = min(old_max + increment, len(results))
@@ -81,6 +88,16 @@ def get_min_max_index(results, old_min=-5, old_max=0):
 
 
 def get_table_info(data, header, trunc_widths={}, index_start=0):
+    """Returns table information for future printing with print_table
+    The data parameter is expected to be a table (list of lists). A copy of
+    this table is generated with the elements stringified, and every row given
+    an index number. The header is also inserted at the top of this table.
+    This table copy and a list of all the columns' max widths are returned.
+    If trunc_widths is specified, it is expected to be a dictionary of the form
+    column index:max width. Any column index present in trunc_widths with have
+    its stringified elements truncated to the max width.
+    If index_start is specified, the row indicies will that at that value.
+    """
     data_table = [[str(i), *stringify_list(row, trunc_widths)]
                   for i, row in enumerate(data, index_start)]
     data_table.insert(0, header)
@@ -139,6 +156,7 @@ def print_table(table, width_str, widths):
 
 
 def is_index(s, results):
+    """Returns true if s is an index of results"""
     try:
         if int(s) < len(results):
             return True
