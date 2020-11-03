@@ -58,7 +58,7 @@ def logged_in(uid_param, is_privileged_param):
 
 
 def post_question():
-    """Walks user through inputting the required fields to post a question
+    """Allows user to post a question by inputting the required fields
 
     Returns:
         (bool): True if the user chooses to logout, False otherwise
@@ -82,10 +82,7 @@ def post_question():
 
 
 def search_select_posts():
-    """Walks a user through inputting the required fields to search for posts
-
-    Then, acts as the execution loop to allow a user to select one of the
-    resulting posts from the search
+    """Allows user to search for posts and select one of the results
 
     Returns:
         (post_row, bool): The first value in the tuple is the row entry of the
@@ -146,8 +143,8 @@ def print_search_results(results, min_i, max_i):
 
     Args:
         results ([row_value]): The list of post rows
-        min_i (int): The minimum index within results to be printed
-        max_i (int): The maximum index within results to be printed
+        min_i (int): The minimum index of the printed results range (inclusive)
+        max_i (int): The maximum index of the printed results range (exclusive)
     """
     # Get table
     max_widths = {2: 20, 3: 30}  # title and body (index 2 and 3) before index
@@ -168,8 +165,7 @@ def print_search_results(results, min_i, max_i):
 
 
 def post_action(post):
-    """The execution loop of a user to take post_actions after selecting a
-    resulting post from a search
+    """The execution loop of a user to take post actions on selected post
 
     Args:
         post (post_row): The post on which post_actions are being executed
@@ -231,8 +227,7 @@ def post_action(post):
 
 
 def post_answer(pid):
-    """Walks a user through inputting the required fields to post an answer
-    to a selected question
+    """Allows user to post a answer by inputting the required fields
 
     Args:
         pid (str): The pid of the question which is being answered
@@ -259,8 +254,7 @@ def post_answer(pid):
 
 
 def post_vote(pid):
-    """Walks a user through inputting the required fields to post a vote on
-    a selected post
+    """Allows user to vote on a selected post
 
     Args:
         pid (str): The pid of the post which is being voted on
@@ -273,8 +267,7 @@ def post_vote(pid):
 
 
 def mark_as_accepted(pid):
-    """Walks a user through inputting the required fields to mark a selected
-    answer as accepted
+    """Allows user to mark a selected answer as accepted
 
     Args:
         pid (str): The pid of the answer which is being accepted
@@ -315,8 +308,7 @@ def mark_as_accepted(pid):
 
 
 def give_badge(poster_uid):
-    """Walks a user through inputting the required fields to give a selected
-    post's poster a badge
+    """Allows user to select and give a badge to the poster
 
     Args:
         poster_uid (str): The uid of the poster who is being given a badge
@@ -373,8 +365,8 @@ def print_badges(results, min_i, max_i):
 
     Args:
         results ([badge_value]): The list of badge rows
-        min_i (int): The minimum index within results to be printed
-        max_i (int): The maximum index within results to be printed
+        min_i (int): The minimum index of the printed results range (inclusive)
+        max_i (int): The maximum index of the printed results range (exclusive)
     """
     # Get table
     header = ["i", "name", "type"]
@@ -388,8 +380,7 @@ def print_badges(results, min_i, max_i):
 
 
 def add_tag(pid):
-    """Walks a user through inputting the required fields to give a selected
-    post a new tag
+    """Allows user to add a tag to the selected post
 
     Args:
         pid (str): The pid of the post of which the new tag will be added
@@ -411,8 +402,7 @@ def add_tag(pid):
 
 
 def edit_post(pid):
-    """Walks a user through inputting the required fields to edit the title
-    and body of a selected post
+    """Allows user to edit the selected post
 
     Args:
         pid (str): The pid of the post which is being editted
