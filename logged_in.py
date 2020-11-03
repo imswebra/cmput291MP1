@@ -20,7 +20,7 @@ def logged_in(uid_param, is_privileged_param):
     """
     The execution loop for a user once logged in
     Parameters:
-        uid_param (str): the uid of the logged in user 
+        uid_param (str): the uid of the logged in user
         is_privileged_param (bool): True if privileged user, False otherwise
     """
     global uid
@@ -59,7 +59,9 @@ def logged_in(uid_param, is_privileged_param):
 
 def post_question():
     """
-    Walks a user through inputting the required fields to post a question
+    Walks user through inputting the required fields to post a question
+    Returns:
+        (bool): True if the user chooses to logout, False otherwise
     """
     print("Post Question")
     title_text = input("Enter title: ")
@@ -171,7 +173,7 @@ def post_action(post):
     Parameters:
         post (post_row): The post on which post_actions are being executed
     Returns:
-        (bool): True if the user chooses to logout, False otherwise
+        (bool): True if the user chooses to logout, None otherwise
     """
     # Get post info
     pid = post[0]
@@ -233,6 +235,8 @@ def post_answer(pid):
     to a selected question
     Parameters:
         pid (str): The pid of the question which is being answered
+    Returns:
+        (bool): True if the user chooses to logout, False otherwise
     """
     print("Post Answer")
     title_text = input("Enter title: ")
@@ -272,6 +276,8 @@ def mark_as_accepted(pid):
     answer as accepted
     Parameters:
         pid (str): The pid of the answer which is being accepted
+    Returns:
+        (bool): True if the user chooses to logout, None otherwise
     """
     question = db.get_question_of_answer(pid)
     if question is None:
@@ -311,6 +317,8 @@ def give_badge(poster_uid):
     post's poster a badge
     Parameters:
         poster_uid (str): The uid of the poster who is being given a badge
+    Returns:
+        (bool): True if the user chooses to logout, None otherwise
     """
     results = db.get_badges()
     if results is None:
@@ -381,6 +389,8 @@ def add_tag(pid):
     post a new tag
     Parameters:
         pid (str): The pid of the post of which the new tag will be added
+    Returns:
+        (bool): True if the user chooses to logout, False otherwise
     """
     print('Add tag')
     tag = input('Enter a tag: ')
@@ -401,6 +411,8 @@ def edit_post(pid):
     and body of a selected post
     Parameters:
         pid (str): The pid of the post which is being editted
+    Returns:
+        (bool): True if the user chooses to logout, False otherwise
     """
     print('Edit the title and/or body of a post')
 
