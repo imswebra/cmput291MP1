@@ -5,6 +5,8 @@ from utils import (
     print_options,
     print_invalid_option,
     get_min_max_index,
+    get_table_info,
+    print_table,
     is_index
 )
 
@@ -111,9 +113,20 @@ def search_select_posts():
 
 
 def print_search_results(results, min_i, max_i):
-    print("index, pid, pdate, title, body, poster, keyword count, vote count, answer count")
-    for i, row in enumerate(results[min_i:max_i], min_i):
-        print(("{}: {}, {}, {}, {}, {}, {}, {}, {}").format(i, *row))
+    # Get table
+    max_widths = {2: 20, 3: 30}  # title and body (index 2 and 3) before index
+    header = ["i", "pid", "pdate", "title", "body", "poster",
+              "# keywords", "votes", "answers"]
+    table, widths = get_table_info(results[min_i:max_i], header,
+                                   trunc_widths=max_widths, index_start=min_i)
+
+    # Generate width string
+    # Right-aligned index, 5 left-aligned columns, 3 right-aligned columns
+    width_str = "{{:>{}}}  " + "{{:{}}}  " * 5 + "{{:>{}}}  " * 2 + "{{:>{}}}"
+    width_str = width_str.format(*widths)
+
+    # Print the table
+    print_table(table, width_str, widths)
     print("")
 
 
@@ -266,9 +279,14 @@ def give_badge(poster_uid):
 
 
 def print_badges(results, min_i, max_i):
-    print("index, name, type")
-    for i, row in enumerate(results[min_i:max_i], min_i):
-        print(("{}: {}, {}").format(i, *row))
+    # Get table
+    header = ["i", "name", "type"]
+    table, widths = get_table_info(results[min_i:max_i], header,
+                                   index_start=min_i)
+
+    # Print the table
+    width_str = "{{:>{}}}  {{:{}}}  {{:{}}}".format(*widths)
+    print_table(table, width_str, widths)
     print("")
 
 
