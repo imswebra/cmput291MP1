@@ -13,7 +13,7 @@ class TestDatabase(unittest.TestCase):
         db.connect('unittest_database.db')
 
     def test_count_keywords(self):
-        self.assertEquals(db.count_keywords("Green apples are tasty", "Tasty apples are green", "green tasty"), 4)
+        self.assertEquals(db.count_keywords("Green apples are tasty", "Tasty apples are green", "Nothing", "green tasty"), 4)
 
     def test_connect(self):
         self.assertTrue(db.connect('database.db'))
@@ -44,13 +44,13 @@ class TestDatabase(unittest.TestCase):
 
     def test_search_posts(self):
         expected = [
-            ('4', "2020-08-29", 'Apple Apple', 'This has apple 4 times ApplE', '3', 30, 0, 0),
-            ('5', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 30, 0, None),
-            ('6', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 30, 0, None),
-            ('7', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 30, 0, None),
-            ('2', '2020-08-29', 'Answer apple', 'This is an answer to that qesution', '2', 14, 1, None),
-            ('1', '2020-09-29', 'Qestion?', 'This is a post about apple.', '1', 12, 2, 1),
-            ('3', '2020-08-29', 'Another Questions', 'This question does not have the keyword in it', '2', 9, 0, 0)
+            ('1', '2020-09-29', 'Qestion?', 'This is a post about apple.', '1', 5, 2, 1),
+            ('2', '2020-08-29', 'Answer apple', 'This is an answer to that qesution', '2', 5, 1, None),
+            ('3', '2020-08-29', 'Another Questions', 'This question does not have the keyword in it', '2', 5, 0, 0),
+            ('4', "2020-08-29", 'Apple Apple', 'This has apple 4 times ApplE', '3', 5, 0, 0),
+            ('5', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 5, 0, None),
+            ('6', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 5, 0, None),
+            ('7', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 5, 0, None)
         ]
         self.assertEquals(db.search_posts("apple"), expected)
 
@@ -69,6 +69,11 @@ class TestDatabase(unittest.TestCase):
             ('Decent post', 'Bronze')
         ]
         self.assertEquals(db.get_badges(), expected)
+
+    def test_case_insensitive_tag(self):
+        self.assertFalse(db.check_post_has_tag("1", "BANANA"))
+        self.assertTrue(db.add_tag("1", "banana"))
+        self.assertTrue(db.check_post_has_tag("1", "BaNaNa"))
 
 if __name__ == '__main__':
     unittest.main()
