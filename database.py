@@ -355,6 +355,20 @@ def post_vote(pid, uid):
         c = conn.cursor()
         today = date.today()
 
+        # Check and see if a user has already voted on this
+        # post
+        c.execute('''
+            select v.uid
+            from votes v
+            where v.pid = ?
+            and v.uid = ?
+        ''', (pid, uid,))
+
+        row = c.fetchone()
+        if row is not None:
+            # User already voted
+            return False
+
         # Get the next vote number
         c.execute('''
             select ifnull(max(vno), 0)
@@ -498,6 +512,7 @@ def give_badge(uid, badge_name):
 
     return True
 
+
 def check_post_has_tag(pid, tag):
     """Returns true a post already has a case-insensitive tag, false otherwise
 
@@ -527,6 +542,7 @@ def check_post_has_tag(pid, tag):
     except Exception as e:
         print(e)
         return True
+
 
 def add_tag(pid, tag):
     """Allows a privileged user to add a tag to a post
