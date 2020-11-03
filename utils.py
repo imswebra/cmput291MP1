@@ -80,6 +80,64 @@ def get_min_max_index(results, old_min=-5, old_max=0):
     return new_min, new_max
 
 
+def get_table_info(data, header, trunc_widths={}, index_start=0):
+    data_table = [[str(i), *stringify_list(row, trunc_widths)]
+                  for i, row in enumerate(data, index_start)]
+    data_table.insert(0, header)
+    return data_table, get_column_widths(data_table)
+
+
+def stringify_list(source_list, max_lengths={}):
+    """Stringifies every element in source_list, and returns the new list
+    If max_lengths is specified, it is expected to be a dictionary of the form
+    index:max_length. For any index, max_length pairs in max_lengths, the
+    stringified source_list[index] will be truncated to max_length.
+
+    Helper function for get_table_info
+    """
+    return [stringify(elem, max_lengths.get(i))
+            for i, elem in enumerate(source_list)]
+
+
+def stringify(obj, max_len=None):
+    """Returns passed object as string
+    If obj is None, returns 'N/A'
+    If max_len is specified and > 3, the stringified object will be truncated
+    with ellipses ('My senten...')
+
+    Helper function for stringify_list
+    """
+    return_str = str(obj) if obj is not None else "N/A"
+    if max_len is not None and max_len > 3 and len(return_str) > max_len:
+        return_str = return_str[:(max_len - 3)] + "..."
+    return return_str
+
+
+def get_column_widths(table):
+    """Returns a list of maximum column string widths given a list of lists
+    Assumes the size of the inner lists (rows) to all be equal.
+
+    Helper function for get_table_info
+    """
+    # Assumes table rows are of equal size
+    transposed_table = list(map(list, zip(*table)))
+    return [max(len(str(s)) for s in row) for row in transposed_table]
+
+
+def print_table(table, width_str, widths):
+    """Pretty prints a table (list of lists)
+    width_str is expected to be a string containing empty placeholders with
+    width specifications in the str.format() style ({:width}). widths is an
+    list containing those width specification values.
+    Assumes the first row of the table is the header, and width_str has equal
+    width specifications as the size of widths
+    """
+    print(width_str.format(*table[0]))
+    print(width_str.format(*["-" * width for width in widths]))
+    for row in table[1:]:
+        print(width_str.format(*row))
+
+
 def is_index(s, results):
     try:
         if int(s) < len(results):
