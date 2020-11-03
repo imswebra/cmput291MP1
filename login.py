@@ -13,7 +13,7 @@ def login_or_signup():
         uid of the logged in user (string)
         bool indicating if the user is a privileged user
     """
-    print('To exit program type `exit` at any point')
+    print("To exit program type `/exit` at any point")
     print_options(["Login", "Sign-up"])
 
     while (True):
@@ -36,7 +36,7 @@ def login():
         uid of the logged in user (string)
         bool indicating if the user is a privileged user
     """
-    print("To return to the main screen, type `back`")
+    print("To return to the main screen, type `/back`")
     while (True):
         print("Enter: ID")
 
@@ -45,7 +45,7 @@ def login():
         if not login_values:
             continue
 
-        if login_values[0] == "back":
+        if login_values[0] == "/back":
             return None, None
 
         # Attempt to login
@@ -64,7 +64,7 @@ def signup():
     """User signup routine
     Returns the uid of the new user, None if signup failed
     """
-    print("To return to the main screen, type `back`")
+    print("To return to the main screen, type `/back`")
     while(True):
         print("Enter: Id, Name, City")
         # Sign_up_values will have len of 4 (3 + pass)
@@ -72,7 +72,7 @@ def signup():
         if not sign_up_values:
             continue
 
-        if sign_up_values[0] == "back":
+        if sign_up_values[0] == "/back":
             return None
 
         # Attempt to sign up

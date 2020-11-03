@@ -21,15 +21,15 @@ def logged_in(uid_param, is_privileged_param):
     global is_privileged
     is_privileged = is_privileged_param
 
-    print('Now logged in. To log out, type `logout` at anytime.')
+    print("Now logged in. To log out, type `/logout` at anytime.")
     while (True):
         print_options(["Post a question", "Search posts"])
 
         action = request_input()[0]
 
-        if action == "back":
-            print("At the top-level menu. To logout, type `logout`.")
-        elif (action == "logout"):
+        if action == "/back":
+            print("Already at the top-level menu. To logout, type `/logout`.")
+        elif (action == "/logout"):
             return
         # Post a Question
         elif (action == "1"):
@@ -78,7 +78,7 @@ def search_select_posts():
 
     # List results
     print("Showing results for keywords", str(keywords))
-    print("To go back, type `back`")
+    print("To go back, type `/back`")
     print("Enter the index of the post to excute an action on that post:")
     min_i, max_i = get_indices_range(results=results)
     print("")
@@ -100,11 +100,11 @@ def search_select_posts():
                 old_max=max_i
             )
             print_search_results(results, min_i, max_i)
-        elif action == "back":
+        elif action == "/back":
             # Should go to main menu (post/search selection). If "continue"
             # is used, user will go back to keyword input and will be stuck
             return None, False
-        elif action == "logout":
+        elif action == "/logout":
             return None, True
         elif is_index(action, results):
             # Note: User input index starts at 1
@@ -150,13 +150,13 @@ def post_action(post):
 
     while(True):
         print("Selected post pid is:", pid)
-        print("To go back, type `back`")
+        print("To go back, type `/back`")
         print_options(pa_actions, skip_actions)
         action = request_input()[0]
 
-        if action == "back":
+        if action == "/back":
             return False
-        elif action == "logout":
+        elif action == "/logout":
             return True
         # Post action-answer
         elif (action == "1") and is_question:
@@ -242,7 +242,7 @@ def give_badge(poster_uid):
 
     print("Give poster a badge")
     print("Choose a badge to give to the user:")
-    print("To go back, type `back`")
+    print("To go back, type `/back`")
     min_i, max_i = get_indices_range(results=results)
     print("")
     print_badges(results, min_i, max_i)
@@ -263,9 +263,9 @@ def give_badge(poster_uid):
                 old_max=max_i
             )
             print_badges(results, min_i, max_i)
-        elif action == "back":
+        elif action == "/back":
             return False
-        elif action == "logout":
+        elif action == "/logout":
             return True
         elif is_index(action, results):
             break
