@@ -148,9 +148,9 @@ def login(uid, pwd):
         c.execute('''
             SELECT *
             FROM users
-            WHERE uid =:uid AND pwd =:pwd
+            WHERE lower(uid) =:uid AND pwd =:pwd
         ''', {
-                "uid": uid,
+                "uid": uid.lower(),
                 "pwd": pwd
             }
         )
@@ -181,9 +181,9 @@ def check_privilege(uid):
         c.execute('''
             SELECT *
             FROM privileged
-            WHERE uid =:uid
+            WHERE lower(uid) =:uid
         ''', {
-                "uid": uid,
+                "uid": uid.lower(),
             }
         )
 
