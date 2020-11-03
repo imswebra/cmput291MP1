@@ -6,26 +6,32 @@ import random, string
 conn = None
 
 
-def count_keywords(string1, string2, keywords):
-    """Counts the number of occurrence of each keyword in keywords
-    
-    These returned count is the sum of keyword occurences in both string1
-    and string2 
+def count_keywords(string1, string2, string3, keywords):
+    """Counts number of keywords present in the two strings
+
+    Note that only counts +1 if keyword is in either string or 0 if not.
+    Does not count the number of occurrences.
 
     Args:
-        string1 (str): The first string to check keyword occurence within
-        string2 (str): The second string to check keyword occurence within
-        keywords ([str]): a list of keywords to check for occurences within
+        string1 (str): The first string to check keyword occurrence within
+        string2 (str): The second string to check keyword occurrence within
+        string3 (str): The third string to check keyword occurrence within
+        keywords ([str]): a list of keywords to check for occurrences within
             string1 and string2
 
     Returns:
-        the number of keyword occurences
+        the number of keyword occurrences
     """
     try:
+        string1 = string1.lower() if string1 else ""
+        string2 = string2.lower() if string2 else ""
+        string3 = string3.lower() if string3 else ""
+
         total_count = 0
-        keywords = keywords.split()
+        keywords = keywords.lower().split()
         for k in keywords:
-            total_count += string1.lower().count(k) + string2.lower().count(k)
+            if k in string1 or k in string2 or k in string3:
+                total_count += 1
 
         return total_count
     except Exception as e:
@@ -34,8 +40,8 @@ def count_keywords(string1, string2, keywords):
 
 
 def connect(db_name):
-    """Attempts to connect to a database of a given name. 
-    
+    """Attempts to connect to a database of a given name.
+
     Also adds the custom function 'count_keywords' to the
     database connection
 
@@ -48,7 +54,7 @@ def connect(db_name):
     try:
         global conn
         conn = sqlite3.connect(db_name)
-        conn.create_function("count_keywords", 3, count_keywords)
+        conn.create_function("count_keywords", 4, count_keywords)
 
         return True
     except Exception as e:
@@ -234,7 +240,7 @@ def post_question(title, body, uid):
 
 
 def search_posts(keywords):
-    """Allows a user to search all posts related by a 
+    """Allows a user to search all posts related by a
 
     Args:
         title (str): the title of the new answer post
@@ -245,20 +251,14 @@ def search_posts(keywords):
     Returns:
         True on success, False otherwise
     """
-    # Get posts with keywords
-    keywords = [s.lower() for s in keywords]
-    joined_keywords = " ".join(keywords)
-    keywords.append(joined_keywords)
-    keywords.append(joined_keywords)
 
     try:
         c = conn.cursor()
 
         sql = ('''
             with tagCount as (
-                select p.pid as pid, count(*) as keywordCount
+                select p.pid as pid, group_concat(t.tag) as tagsStr
                 from posts p join tags t on p.pid = t.pid
-                where lower(tag) in ({seq})
                 group by p.pid
             ), voteCount as (
                 select p.pid, max(v.vno) as count
@@ -275,21 +275,18 @@ def search_posts(keywords):
             p.title,
             p.body,
             p.poster,
-            count_keywords(p.title, p.body, ?) + ifnull(tc.keywordCount, 0) as wordCount,
+            count_keywords(p.title, p.body, tc.tagsStr, ?) as wordCount,
             ifnull(vc.count, 0),
             ac.count
             from posts p
             left outer join tagCount tc on p.pid = tc.pid
             left outer join voteCount vc on p.pid = vc.pid
             left outer join answerCount ac on p.pid = ac.pid
-            where count_keywords(p.title, p.body, ?) > 0
-            or tc.keywordCount > 0
+            where wordCount > 0
             order by wordcount desc;
-        ''').format(
-            seq=','.join(['?']*(len(keywords) - 2))
-        )
+        ''')
 
-        c.execute(sql, keywords,)
+        c.execute(sql, (" ".join(keywords),))
 
         rows = c.fetchall()
 
