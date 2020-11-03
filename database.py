@@ -9,18 +9,18 @@ conn = None
 def count_keywords(string1, string2, string3, keywords):
     """Counts number of keywords present in the two strings
 
-    Note that only counts +1 if keyword is in either string or 0 if not.
-    Does not count the number of occurrences.
+    Note that only counts +1 if keyword is in either string or 0 if not. Does
+    not count the number of occurrences.
 
     Args:
         string1 (str): The first string to check keyword occurrence within
         string2 (str): The second string to check keyword occurrence within
         string3 (str): The third string to check keyword occurrence within
-        keywords ([str]): a list of keywords to check for occurrences within
+        keywords ([str]): A list of keywords to check for occurrences within
             string1 and string2
 
     Returns:
-        the number of keyword occurrences
+        (int): The number of keyword occurrences
     """
     try:
         string1 = string1.lower() if string1 else ""
@@ -40,16 +40,15 @@ def count_keywords(string1, string2, string3, keywords):
 
 
 def connect(db_name):
-    """Attempts to connect to a database of a given name.
+    """Attempts to connect to a database of a given name
 
-    Also adds the custom function 'count_keywords' to the
-    database connection
+    Also adds the custom function 'count_keywords' to the database connection.
 
     Args:
-        db_name (str): the name of the database to connect to
+        db_name (str): The name of the database to connect to
 
     Returns:
-        True on connection success, False otherwise
+        (bool): True on connection success, False otherwise
     """
     try:
         global conn
@@ -66,13 +65,13 @@ def generate_unique_key(length, table, col_name):
     """Creates a new unique key for a column within a table
 
     Args:
-        length (int): the desired length of a the key
-        table (str): the table within which the key should be unique
-        col_name (str): the table's column within which the the key should
-            be unique
+        length (int): The desired length of a the key
+        table (str): The table within which the key should be unique
+        col_name (str): The table's column within which the key should be
+            unique
 
     Returns:
-        (int): the generated unique key
+        (int): The generated unique key
     """
     while(True):
         key = ''.join(random.choice(string.digits) for _ in range(length))
@@ -96,13 +95,13 @@ def sign_up(uid, name, city, pwd):
     """Creates a new user
 
     Args:
-        uid (str): the user id to attempt to signup
-        name (str): the name of the new user attempting to signup
-        city (str): the city of the new user attempting to signup
-        pwd (str): the password to attempt to signup uid's account with
+        uid (str): The new user id
+        name (str): The new user's name
+        city (str): The new user's city
+        pwd (str): The new user's password
 
     Returns:
-        True on signup success, False otherwise
+        (bool): True on signup success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -142,11 +141,11 @@ def login(uid, pwd):
     """Checks if a given uid and password match any users
 
     Args:
-        uid (str): the user id to attempt to login
-        pwd (str): the password to attempt to log into uid's account with
+        uid (str): The user id to attempt to login
+        pwd (str): The password to attempt to log into uid's account with
 
     Returns:
-        True on login success, False otherwise
+        (bool): True on login success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -176,10 +175,10 @@ def check_privilege(uid):
     """Checks if a given uid is a privileged user or not
 
     Args:
-        uid (str): the user id to check if privileged
+        uid (str): The user id to check if privileged
 
     Returns:
-        True if privileged, False otherwise
+        (bool): True if privileged, False otherwise
     """
     try:
         c = conn.cursor()
@@ -204,15 +203,15 @@ def check_privilege(uid):
 
 
 def post_question(title, body, uid):
-    """Allows a user to post a new question
+    """Posts a new question
 
     Args:
-        title (str): the title of the new question post
-        body (str): the body of the new question post
-        uid (str): the uid of the question's poster
+        title (str): The title of the new question post
+        body (str): The body of the new question post
+        uid (str): The uid of the question's poster
 
     Returns:
-        True on success, False otherwise
+        (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -245,16 +244,13 @@ def post_question(title, body, uid):
 
 
 def search_posts(keywords):
-    """Allows a user to search all posts related by a
+    """Searches all posts related by keywords
 
     Args:
-        title (str): the title of the new answer post
-        body (str): the body of the new answer post
-        uid (str): the uid of the answer's poster
-        qid (str): the question id which is being answer
+        keywords([str]): The keywords to search for
 
     Returns:
-        True on success, False otherwise
+        ([results row]): The list of matching posts
     """
 
     try:
@@ -302,16 +298,16 @@ def search_posts(keywords):
 
 
 def post_answer(title, body, uid, qid):
-    """Allows a user to post an answer to a question, marked by qid
+    """Posts a new answer to a given question
 
     Args:
-        title (str): the title of the new answer post
-        body (str): the body of the new answer post
-        uid (str): the uid of the answer's poster
-        qid (str): the question id which is being answer
+        title (str): The title of the new answer post
+        body (str): The body of the new answer post
+        uid (str): The uid of the answer's poster
+        qid (str): The question id which is being answer
 
     Returns:
-        True on success, False otherwise
+        (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -344,14 +340,14 @@ def post_answer(title, body, uid, qid):
 
 
 def post_vote(pid, uid):
-    """Allows a user to vote on a post
+    """Posts a vote by the given user to the given post
 
     Args:
-        pid (str): the post id which is being given a vote
-        uid (str): the user which is voting on the post
+        pid (str): The post id which is being given a vote
+        uid (str): The user which is voting on the post
 
     Returns:
-        True on success, False otherwise
+         (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -402,14 +398,14 @@ def post_vote(pid, uid):
 
 
 def get_question_of_answer(answer_pid):
-    """Returns the question which corresponds to a given answer post id
+    """Returns the question id corresponding to the given answer id
 
     Args:
-        answer_pid (str): the post id of the answer whose corresponding
+        answer_pid (str): The post id of the answer whose corresponding
             question is to be returned
 
     Returns:
-        the question entry that corresponds to the provided answer_pid
+        (str): The post id of the corresponding question
     """
     try:
         c = conn.cursor()
@@ -432,17 +428,15 @@ def get_question_of_answer(answer_pid):
 
 
 def mark_accepted(answer_pid, question_pid):
-    """Allows a privileged user to mark an answer as the accepted answer
-    for its corresponding question post
+    """Marks a given answer as accepted for the given question
 
     Args:
-        answer_pid (str): the post id of the answer that is being
-            marked as accepted
-        question_pid (str): the post id of the question post whose
-            theaid value is being set to answer_pid
+        answer_pid (str): The post id of the answer that is being marked as
+            accepted
+        question_pid (str): The post id of the question whose theaid value is
+            being set to answer_pid
 
-    Returns:
-        True on success, False otherwise
+    Returns: (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -465,7 +459,7 @@ def get_badges():
     """Retrieves the list of all possible badges
 
     Returns:
-        All entries from the badges table
+        ([badges row]): All entries from the badges table
     """
     try:
         c = conn.cursor()
@@ -478,14 +472,14 @@ def get_badges():
 
 
 def give_badge(uid, badge_name):
-    """Allows a privileged user to give a user a badge on today's date
+    """Gives the given badge to the given user
 
     Args:
-        uid (str): the uid of which to give a badge
-        badge_name (str): the name of the badge which is being given
+        uid (str): The uid of which to give a badge
+        badge_name (str): The name of the badge which is being given
 
     Returns:
-        True on success, False otherwise
+        (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -523,8 +517,11 @@ def check_post_has_tag(pid, tag):
     """Returns true a post already has a case-insensitive tag, false otherwise
 
     Args:
-        pid (str): the post ID which is being checked if it has tag
-        tag (str): the string of the tag to check if a post has
+        pid (str): The post ID which is being checked if it has tag
+        tag (str): The string of the tag to check if a post has
+
+    Returns:
+        (bool): True if post has tag, False otherwise
     """
     try:
         c = conn.cursor()
@@ -551,14 +548,14 @@ def check_post_has_tag(pid, tag):
 
 
 def add_tag(pid, tag):
-    """Allows a privileged user to add a tag to a post
+    """Adds the given tag to a given post
 
     Args:
-        pid (str): the post ID which is being given the tag
-        tag (str): the string of the tag which is being added to the post
+        pid (str): The post ID which is being given the tag
+        tag (str): The string of the tag which is being added to the post
 
     Returns:
-        True on success, False otherwise
+        (bool): True on success, False otherwise
     """
     try:
         if (check_has_case_insensitive_entry("tags", ["pid", "tag"], [pid, tag])):
@@ -585,15 +582,15 @@ def add_tag(pid, tag):
 
 
 def edit_post(pid, title, body):
-    """Allows a privileged user to edit the title and body of a post
+    """Updates the given post with a new title and body
 
     Args:
-        pid (str): the post ID which is being editted
-        title (str): the new title to assign to the post
-        body (str): the new body to assign to the post
+        pid (str): The post ID which is being editted
+        title (str): The new title to assign to the post, "" to use old title
+        body (str): The new body to assign to the post, "" to use old body
 
     Returns:
-        True on success, False otherwise
+        (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
