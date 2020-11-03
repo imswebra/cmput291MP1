@@ -9,6 +9,7 @@ def split_and_strip(input_val):
 
 def request_input(expected_len=0, logout_allowed=True, password=False):
     """Requests comma seperated input from user.
+
     Takes three optional parameters.
     If expected_len is specificed, this function will handle error messages and
     and return none when the number inputs recieved does not match expected_len,
@@ -43,6 +44,7 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
 
 def keyword_input_validate(str):
     """Validates input string for keywords
+
     Utility function to validate string from a manual input() call when using
     request_input isn't appropriate. Returns two boolean values, the first
     being whether or not to return (true if str == keyword), the second being
@@ -60,6 +62,7 @@ def keyword_input_validate(str):
 
 def print_invalid_input(len_tuple=None):
     """Prints an invalid input message.
+
     Takes optional tuple of the form (expected_num_items, received_num_items)
     for "Expected #, got #" style messages.
     """
@@ -79,6 +82,7 @@ def print_options(options, skip_options=[]):
 
 def print_invalid_option(max_option=None):
     """Prints an invalid option message.
+
     If max_option specified, prints message with usage hint.
     """
     if max_option:
@@ -89,6 +93,7 @@ def print_invalid_option(max_option=None):
 
 def get_indices_range(results, old_min=-5, old_max=0):
     """Returns minimum and maximum indices for a range slice on results
+
     Utility function for showing a maximum of 5 results at a time. On first
     use, the caller should ignore the optional old_min and old_max parameters.
     Afterwards, the results from the first use should be used for these
@@ -105,6 +110,7 @@ def get_indices_range(results, old_min=-5, old_max=0):
 
 def get_table_info(data, header, trunc_widths={}, index_start=0):
     """Returns table information for future printing with print_table
+
     The data parameter is expected to be a table (list of lists). A copy of
     this table is generated with the elements stringified, and every row given
     an index number. The header is also inserted at the top of this table.
@@ -122,6 +128,7 @@ def get_table_info(data, header, trunc_widths={}, index_start=0):
 
 def stringify_list(source_list, max_lengths={}):
     """Stringifies every element in source_list, and returns the new list
+
     If max_lengths is specified, it is expected to be a dictionary of the form
     index:max_length. For any index, max_length pairs in max_lengths, the
     stringified source_list[index] will be truncated to max_length.
@@ -134,6 +141,7 @@ def stringify_list(source_list, max_lengths={}):
 
 def stringify(obj, max_len=None):
     """Returns passed object as string
+
     If obj is None, returns 'N/A'
     If max_len is specified and > 3, the stringified object will be truncated
     with ellipses ('My senten...')
@@ -148,6 +156,7 @@ def stringify(obj, max_len=None):
 
 def get_column_widths(table):
     """Returns a list of maximum column string widths given a list of lists
+
     Assumes the size of the inner lists (rows) to all be equal.
 
     Helper function for get_table_info
@@ -159,6 +168,7 @@ def get_column_widths(table):
 
 def print_table(table, width_str, widths):
     """Pretty prints a table (list of lists)
+
     width_str is expected to be a string containing empty placeholders with
     width specifications in the str.format() style ({:width}). widths is an
     list containing those width specification values.
@@ -173,6 +183,7 @@ def print_table(table, width_str, widths):
 
 def is_index(s, results):
     """Returns whether string s is an appropriate index into results
+    
     Assumes s is one-based instead of zero-based
     """
     try:

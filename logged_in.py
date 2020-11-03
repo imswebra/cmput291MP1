@@ -17,9 +17,9 @@ is_privileged = None
 
 
 def logged_in(uid_param, is_privileged_param):
-    """
-    The execution loop for a user once logged in
-    Parameters:
+    """The execution loop for a user once logged in
+
+    Args:
         uid_param (str): the uid of the logged in user
         is_privileged_param (bool): True if privileged user, False otherwise
     """
@@ -58,8 +58,8 @@ def logged_in(uid_param, is_privileged_param):
 
 
 def post_question():
-    """
-    Walks user through inputting the required fields to post a question
+    """Walks user through inputting the required fields to post a question
+
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """
@@ -82,10 +82,11 @@ def post_question():
 
 
 def search_select_posts():
-    """
-    Walks a user through inputting the required fields to search for posts.
+    """Walks a user through inputting the required fields to search for posts
+
     Then, acts as the execution loop to allow a user to select one of the
     resulting posts from the search
+
     Returns:
         (post_row, bool): The first value in the tuple is the row entry of the
             selected post, or None if user exits. The second value in the tuple
@@ -141,9 +142,9 @@ def search_select_posts():
 
 
 def print_search_results(results, min_i, max_i):
-    """
-    Prints the formatted results from a search of posts
-    Parameters:
+    """Prints the formatted results from a search of posts
+
+    Args:
         results ([row_value]): The list of post rows
         min_i (int): The minimum index within results to be printed
         max_i (int): The maximum index within results to be printed
@@ -167,10 +168,10 @@ def print_search_results(results, min_i, max_i):
 
 
 def post_action(post):
-    """
-    The execution loop of a user to take post_actions after selecting a
+    """The execution loop of a user to take post_actions after selecting a
     resulting post from a search
-    Parameters:
+
+    Args:
         post (post_row): The post on which post_actions are being executed
     Returns:
         (bool): True if the user chooses to logout, None otherwise
@@ -230,11 +231,12 @@ def post_action(post):
 
 
 def post_answer(pid):
-    """
-    Walks a user through inputting the required fields to post an answer
+    """Walks a user through inputting the required fields to post an answer
     to a selected question
-    Parameters:
+
+    Args:
         pid (str): The pid of the question which is being answered
+
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """
@@ -257,10 +259,10 @@ def post_answer(pid):
 
 
 def post_vote(pid):
-    """
-    Walks a user through inputting the required fields to post a vote on
+    """Walks a user through inputting the required fields to post a vote on
     a selected post
-    Parameters:
+
+    Args:
         pid (str): The pid of the post which is being voted on
     """
     vote_success = db.post_vote(pid, uid)
@@ -271,11 +273,12 @@ def post_vote(pid):
 
 
 def mark_as_accepted(pid):
-    """
-    Walks a user through inputting the required fields to mark a selected
+    """Walks a user through inputting the required fields to mark a selected
     answer as accepted
-    Parameters:
+
+    Args:
         pid (str): The pid of the answer which is being accepted
+
     Returns:
         (bool): True if the user chooses to logout, None otherwise
     """
@@ -312,11 +315,12 @@ def mark_as_accepted(pid):
 
 
 def give_badge(poster_uid):
-    """
-    Walks a user through inputting the required fields to give a selected
+    """Walks a user through inputting the required fields to give a selected
     post's poster a badge
-    Parameters:
+
+    Args:
         poster_uid (str): The uid of the poster who is being given a badge
+
     Returns:
         (bool): True if the user chooses to logout, None otherwise
     """
@@ -365,9 +369,9 @@ def give_badge(poster_uid):
 
 
 def print_badges(results, min_i, max_i):
-    """
-    Prints the formatted results from a list of badges
-    Parameters:
+    """Prints the formatted results from a list of badges
+
+    Args:
         results ([badge_value]): The list of badge rows
         min_i (int): The minimum index within results to be printed
         max_i (int): The maximum index within results to be printed
@@ -384,11 +388,12 @@ def print_badges(results, min_i, max_i):
 
 
 def add_tag(pid):
-    """
-    Walks a user through inputting the required fields to give a selected
+    """Walks a user through inputting the required fields to give a selected
     post a new tag
-    Parameters:
+
+    Args:
         pid (str): The pid of the post of which the new tag will be added
+
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """
@@ -406,11 +411,12 @@ def add_tag(pid):
 
 
 def edit_post(pid):
-    """
-    Walks a user through inputting the required fields to edit the title
+    """Walks a user through inputting the required fields to edit the title
     and body of a selected post
-    Parameters:
+
+    Args:
         pid (str): The pid of the post which is being editted
+
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """

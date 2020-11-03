@@ -9,6 +9,7 @@ from utils import (
 
 def login_or_signup():
     """Main login/signup routine
+    
     Returns 2 values. Both are None if the login/signup failed:
         uid of the logged in user (string)
         bool indicating if the user is a privileged user
@@ -32,6 +33,7 @@ def login_or_signup():
 
 def login():
     """User login routine
+
     Returns 2 values. Both are None if the login failed:
         uid of the logged in user (string)
         bool indicating if the user is a privileged user
@@ -62,6 +64,7 @@ def login():
 
 def signup():
     """User signup routine
+
     Returns the uid of the new user, None if signup failed
     """
     print("To return to the main screen, type `/back`")
