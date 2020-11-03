@@ -80,7 +80,7 @@ def get_min_max_index(results, old_min=-5, old_max=0):
     """
     increment = 5
     new_min = old_min + increment
-    new_max = min(old_max + increment, len(results))
+    new_max = min(old_max + increment, len(results) - 1)
 
     if len(results) > new_max:
         print("Type `more` to see more results")
