@@ -481,6 +481,35 @@ def give_badge(uid, badge_name):
 
     return True
 
+def check_post_has_tag(pid, tag):
+    """Returns true a post already has a case-insensitive tag, false otherwise
+
+    Parameters:
+        pid (str): the post ID which is being checked if it has tag
+        tag (str): the string of the tag to check if a post has
+    """
+    try:
+        c = conn.cursor()
+
+        c.execute('''
+            SELECT * FROM tags
+            WHERE pid =:pid
+            AND lower(tag) =:tag
+        ''', {
+                "pid": pid,
+                "tag": tag.lower()
+            }
+        )
+
+        row = c.fetchone()
+
+        if row is None:
+            return False
+        return True
+
+    except Exception as e:
+        print(e)
+        return True
 
 def add_tag(pid, tag):
     """
@@ -492,6 +521,10 @@ def add_tag(pid, tag):
         True on success, False otherwise
     """
     try:
+        if (check_post_has_tag(pid, tag)):
+            print("This tag has already been added to this post (tags are case-insensitive)")
+            return False
+
         c = conn.cursor()
 
         c.execute('''
@@ -505,13 +538,6 @@ def add_tag(pid, tag):
         conn.commit()
         return True
 
-    except sqlite3.IntegrityError as e:
-        if ("UNIQUE constraint failed" in str(e)):
-            print("This tag has already been added to this post (tags are case-insensitive)")
-        else:
-            print(e)
-
-        return False
     except Exception as e:
         print(e)
 

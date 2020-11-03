@@ -76,13 +76,17 @@ Tasks:
     - Handle prviliged users
 
 #### Nayan
-Time Estimate:
+Time Estimate: ~11 hours
 
 Tasks:
+- Develop sql utility functions (get_question_of_answer)
 - Initial implementation of many of the required features:
     - Mark as accepted post-action
     - Add tag post-action
     - Edit post post-action
+- Various bug fixes across codebase
+- Adding of descriptive docstrings to functions
+- Implementation of a unit testing framework
 
 #### Eric
 Time Estimate: ~12 hours
