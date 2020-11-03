@@ -500,6 +500,7 @@ def give_badge(uid, badge_name):
 
     return True
 
+
 def add_tag(pid, tag):
     """Adds the given tag to a given post
 
