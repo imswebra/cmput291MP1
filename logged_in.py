@@ -231,7 +231,6 @@ def post_answer(pid):
 
     Args:
         pid (str): The pid of the question which is being answered
-
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """
@@ -271,7 +270,6 @@ def mark_as_accepted(pid):
 
     Args:
         pid (str): The pid of the answer which is being accepted
-
     Returns:
         (bool): True if the user chooses to logout, None otherwise
     """
@@ -312,7 +310,6 @@ def give_badge(poster_uid):
 
     Args:
         poster_uid (str): The uid of the poster who is being given a badge
-
     Returns:
         (bool): True if the user chooses to logout, None otherwise
     """
@@ -384,7 +381,6 @@ def add_tag(pid):
 
     Args:
         pid (str): The pid of the post of which the new tag will be added
-
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """
@@ -406,7 +402,6 @@ def edit_post(pid):
 
     Args:
         pid (str): The pid of the post which is being editted
-
     Returns:
         (bool): True if the user chooses to logout, False otherwise
     """

@@ -18,7 +18,6 @@ def count_keywords(string1, string2, string3, keywords):
         string3 (str): The third string to check keyword occurrence within
         keywords ([str]): A list of keywords to check for occurrences within
             string1 and string2
-
     Returns:
         (int): The number of keyword occurrences
     """
@@ -46,7 +45,6 @@ def connect(db_name):
 
     Args:
         db_name (str): The name of the database to connect to
-
     Returns:
         (bool): True on connection success, False otherwise
     """
@@ -69,7 +67,6 @@ def generate_unique_key(length, table, col_name):
         table (str): The table within which the key should be unique
         col_name (str): The table's column within which the key should be
             unique
-
     Returns:
         (int): The generated unique key
     """
@@ -99,7 +96,6 @@ def sign_up(uid, name, city, pwd):
         name (str): The new user's name
         city (str): The new user's city
         pwd (str): The new user's password
-
     Returns:
         (bool): True on signup success, False otherwise
     """
@@ -143,7 +139,6 @@ def login(uid, pwd):
     Args:
         uid (str): The user id to attempt to login
         pwd (str): The password to attempt to log into uid's account with
-
     Returns:
         (bool): True on login success, False otherwise
     """
@@ -176,7 +171,6 @@ def check_privilege(uid):
 
     Args:
         uid (str): The user id to check if privileged
-
     Returns:
         (bool): True if privileged, False otherwise
     """
@@ -209,7 +203,6 @@ def post_question(title, body, uid):
         title (str): The title of the new question post
         body (str): The body of the new question post
         uid (str): The uid of the question's poster
-
     Returns:
         (bool): True on success, False otherwise
     """
@@ -248,7 +241,6 @@ def search_posts(keywords):
 
     Args:
         keywords([str]): The keywords to search for
-
     Returns:
         ([results row]): The list of matching posts
     """
@@ -305,7 +297,6 @@ def post_answer(title, body, uid, qid):
         body (str): The body of the new answer post
         uid (str): The uid of the answer's poster
         qid (str): The question id which is being answer
-
     Returns:
         (bool): True on success, False otherwise
     """
@@ -345,7 +336,6 @@ def post_vote(pid, uid):
     Args:
         pid (str): The post id which is being given a vote
         uid (str): The user which is voting on the post
-
     Returns:
          (bool): True on success, False otherwise
     """
@@ -403,7 +393,6 @@ def get_question_of_answer(answer_pid):
     Args:
         answer_pid (str): The post id of the answer whose corresponding
             question is to be returned
-
     Returns:
         (str): The post id of the corresponding question
     """
@@ -435,8 +424,8 @@ def mark_accepted(answer_pid, question_pid):
             accepted
         question_pid (str): The post id of the question whose theaid value is
             being set to answer_pid
-
-    Returns: (bool): True on success, False otherwise
+    Returns:
+        (bool): True on success, False otherwise
     """
     try:
         c = conn.cursor()
@@ -477,7 +466,6 @@ def give_badge(uid, badge_name):
     Args:
         uid (str): The uid of which to give a badge
         badge_name (str): The name of the badge which is being given
-
     Returns:
         (bool): True on success, False otherwise
     """
@@ -518,7 +506,6 @@ def add_tag(pid, tag):
     Args:
         pid (str): The post ID which is being given the tag
         tag (str): The string of the tag which is being added to the post
-
     Returns:
         (bool): True on success, False otherwise
     """
@@ -553,7 +540,6 @@ def edit_post(pid, title, body):
         pid (str): The post ID which is being editted
         title (str): The new title to assign to the post, "" to use old title
         body (str): The new body to assign to the post, "" to use old body
-
     Returns:
         (bool): True on success, False otherwise
     """
@@ -587,6 +573,7 @@ def edit_post(pid, title, body):
         print(e)
         return False
 
+
 def check_has_case_insensitive_entry(table_name, column_names, values):
     """Returns True a table already has a case-insensitive value, else False
 
@@ -595,7 +582,6 @@ def check_has_case_insensitive_entry(table_name, column_names, values):
         column_names ([str]): A list of columns to check
         values ([str]): A list of values to check each corresponding to its
             similarly indexed value in column_names
-
     Returns:
         (bool): True if table has value in column_name, False otherwise
     """
