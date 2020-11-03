@@ -156,9 +156,11 @@ def print_table(table, width_str, widths):
 
 
 def is_index(s, results):
-    """Returns true if s is an index of results"""
+    """Returns whether string s is an appropriate index into results
+    Assumes s is one-based instead of zero-based
+    """
     try:
-        if int(s) < len(results):
+        if int(s) - 1 < len(results):
             return True
         else:
             return False

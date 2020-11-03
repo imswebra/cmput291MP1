@@ -4,7 +4,7 @@ from utils import (
     request_input,
     print_options,
     print_invalid_option,
-    get_min_max_index,
+    get_indices_range,
     get_table_info,
     print_table,
     is_index
@@ -80,7 +80,7 @@ def search_select_posts():
     print("Showing results for keywords", str(keywords))
     print("To go back, type `back`")
     print("Enter the index of the post to excute an action on that post:")
-    min_i, max_i = get_min_max_index(results=results)
+    min_i, max_i = get_indices_range(results=results)
     print("")
     print_search_results(results, min_i, max_i)
 
@@ -94,7 +94,7 @@ def search_select_posts():
                 continue
 
             # Increment the min and max
-            min_i, max_i = get_min_max_index(
+            min_i, max_i = get_indices_range(
                 results=results,
                 old_min=min_i,
                 old_max=max_i
@@ -107,7 +107,8 @@ def search_select_posts():
         elif action == "logout":
             return None, True
         elif is_index(action, results):
-            return results[int(action)], False
+            # Note: User input index starts at 1
+            return results[int(action) - 1], False
         else:
             print_invalid_option(max_option=len(results))
 
@@ -118,7 +119,8 @@ def print_search_results(results, min_i, max_i):
     header = ["i", "pid", "pdate", "title", "body", "poster",
               "# keywords", "votes", "answers"]
     table, widths = get_table_info(results[min_i:max_i], header,
-                                   trunc_widths=max_widths, index_start=min_i)
+                                   trunc_widths=max_widths,
+                                   index_start=min_i + 1)  # Start indices at 1
 
     # Generate width string
     # Right-aligned index, 5 left-aligned columns, 3 right-aligned columns
@@ -241,7 +243,7 @@ def give_badge(poster_uid):
     print("Give poster a badge")
     print("Choose a badge to give to the user:")
     print("To go back, type `back`")
-    min_i, max_i = get_min_max_index(results=results)
+    min_i, max_i = get_indices_range(results=results)
     print("")
     print_badges(results, min_i, max_i)
 
@@ -255,7 +257,7 @@ def give_badge(poster_uid):
                 continue
 
             # Increment the min and max
-            min_i, max_i = get_min_max_index(
+            min_i, max_i = get_indices_range(
                 results=results,
                 old_min=min_i,
                 old_max=max_i
@@ -270,7 +272,8 @@ def give_badge(poster_uid):
         else:
             print_invalid_option(max_option=len(results))
 
-    give_badge_success = db.give_badge(poster_uid, results[int(action)][0])
+    # Note: User input index starts at 1
+    give_badge_success = db.give_badge(poster_uid, results[int(action) - 1][0])
     if give_badge_success:
         print("The badge was successfully given to the poster")
     else:
@@ -282,7 +285,7 @@ def print_badges(results, min_i, max_i):
     # Get table
     header = ["i", "name", "type"]
     table, widths = get_table_info(results[min_i:max_i], header,
-                                   index_start=min_i)
+                                   index_start=min_i + 1)  # Start indices at 1
 
     # Print the table
     width_str = "{{:>{}}}  {{:{}}}  {{:{}}}".format(*widths)
