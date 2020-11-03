@@ -369,14 +369,18 @@ def add_tag(pid, tag):
             (:pid, :tag)
         ''', {
             "pid": pid,
-            "tag": tag
+            "tag": tag.lower()
         })
 
         conn.commit()
         return True
 
     except Exception as e:
-        print(e)
+        if (str(e) == "UNIQUE constraint failed: tags.pid, tags.tag"):
+            print("This tag has already been added to this post (tags are case-insensitive)")
+        else:
+            print(e)
+
         return False
 
 
