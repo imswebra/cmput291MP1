@@ -472,8 +472,8 @@ def give_badge(uid, badge_name):
         c = conn.cursor()
         today = date.today()
 
-        if (check_has_case_insensitive_entry("ubadges", ["uid", "date", "bname"], [uid, today, badge_name])):
-            print("This badge has already been added to this post (badges are case-insensitive)")
+        if (check_has_case_insensitive_entry("ubadges", ["uid", "bdate", "bname"], [uid, str(today), badge_name])):
+            print("This badge has already been added to this user (badges are case-insensitive)")
             return False
 
         c.execute('''

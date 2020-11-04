@@ -59,9 +59,16 @@ Database Tests:
 - test_sign_up: ensure ability to sign up
 - test_login: ensure ability to login
 - test_check_privilege: ensure correct access of privileged users
+- test_post_question: ensure ability to post new questions
 - test_search_posts: ensure correct posts are returned upon search
+- test_post_answer: ensure ability to post new answers
+- test_post_vote: ensure ability to vote on posts
 - test_get_question_of_answer: ensure correct question is returned
+- test_mark_accepted: ensure ability to mark answers as accepted
 - test_get_badges: ensure correct badges are returned
+- test_give_badge: ensure ability to give a user a badge
+- test_add_tag: ensure ability to give a post a new tag
+- test_edit_post: ensure ability to edit the title and body of a post
 - test_case_insensitive_tag: ensure that tags are case insensitive
 
 Additional Tests:
