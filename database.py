@@ -104,7 +104,7 @@ def sign_up(uid, name, city, pwd):
         today = date.today()
 
         if (check_has_case_insensitive_entry("users", ["uid"], [uid])):
-            print("This username has already been created (usernames are case-insensitive)")
+            print("This user ID has already been created (IDs are case-insensitive)")
             return False
 
         c.execute('''
