@@ -1,5 +1,4 @@
 from sys import exit
-from getpass import getpass
 
 
 def split_and_strip(input_val):
@@ -12,18 +11,15 @@ def split_and_strip(input_val):
     return [x.strip() for x in str(input_val).split(',')]
 
 
-def request_input(expected_len=0, logout_allowed=True, password=False):
+def request_input(expected_len=0, logout_allowed=True):
     """Requests comma seperated input from user
 
     Args:
         expected_len (int): If specificed, this function will verify the input
             to have the number of args specicified by expected_len except in
-            the case of a keyword. Passwords do not contribute to the number of
-            args.
+            the case of a keyword.
         logout_allowed (bool): Specifies whether "/logout" should be considered
             a valid keyword
-        password (bool): Specifies whether the user should be prompted for a
-            password after the regular input
     Returns:
         ([str]): The received input values
     """
@@ -42,10 +38,6 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
         if length != expected_len:
             print_invalid_input((expected_len, length))
             return None
-
-    if password and values[0] not in keywords:
-        password = getpass()
-        values.append(password)
 
     print('')
     return values
@@ -80,6 +72,7 @@ def print_invalid_input(len_tuple=None):
         len_tuple ((expected # items, received # items)): If specified, invalid
         message will use the "Expected #, got #" form
     """
+    print("")
     if len_tuple:
         print("Invalid input, expected", len_tuple[0], "item(s), got", len_tuple[1])
     else:

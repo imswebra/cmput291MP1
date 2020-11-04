@@ -5,6 +5,7 @@ from utils import (
     print_options,
     print_invalid_option
 )
+from getpass import getpass
 
 
 def login_or_signup():
@@ -43,25 +44,24 @@ def login():
     print("To return to the main screen, type `/back`")
     while (True):
         print("Enter: ID")
-
-        # login_values will have len of 2 (1 + pass)
-        login_values = request_input(expected_len=1, logout_allowed=False, password=True)
+        login_values = request_input(expected_len=1, logout_allowed=False)
         if not login_values:
             continue
-
         if login_values[0] == "/back":
             return None, None
 
+        print("Enter: Password")
+        login_values.append(getpass("Input: "))
+        print("")
+
         # Attempt to login
-        login_success = db.login(
-            login_values[0], login_values[1]
-        )
+        login_success = db.login(*login_values)
         if login_success:
             # Check if user is privileged
             is_privileged = db.check_privilege(login_values[0])
             return login_values[0], is_privileged
         else:
-            print("Please try again")  # db.login handles some messaging before
+            print("Please try again\n")  # db.login handles some messaging before
 
 
 def signup():
@@ -74,24 +74,21 @@ def signup():
     print("To return to the main screen, type `/back`")
     while(True):
         print("Enter: ID, Name, City")
-        # Sign_up_values will have len of 4 (3 + pass)
-        sign_up_values = request_input(expected_len=3, logout_allowed=False, password=True)
+        sign_up_values = request_input(expected_len=3, logout_allowed=False)
         if not sign_up_values:
             continue
-
         if sign_up_values[0] == "/back":
             return None
         if len(sign_up_values[0]) > 4:
             print("ID must be less than 5 characters")
             continue
 
+        print("Enter: Password")
+        sign_up_values.append(getpass("Input: "))
+        print("")
+
         # Attempt to sign up
-        sign_up_success = db.sign_up(
-            sign_up_values[0],
-            sign_up_values[1],
-            sign_up_values[2],
-            sign_up_values[3]
-        )
+        sign_up_success = db.sign_up(*sign_up_values)
 
         if sign_up_success:
             return sign_up_values[0]
