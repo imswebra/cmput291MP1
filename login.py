@@ -70,9 +70,10 @@ def signup():
     Returns:
         (str): The uid of the signed-up user, None if signup failed
     """
+    print("Sign-up")
     print("To return to the main screen, type `/back`")
     while(True):
-        print("Enter: Id, Name, City")
+        print("Enter: ID, Name, City")
         # Sign_up_values will have len of 4 (3 + pass)
         sign_up_values = request_input(expected_len=3, logout_allowed=False, password=True)
         if not sign_up_values:
@@ -80,6 +81,9 @@ def signup():
 
         if sign_up_values[0] == "/back":
             return None
+        if len(sign_up_values[0]) > 4:
+            print("ID must be less than 5 characters")
+            continue
 
         # Attempt to sign up
         sign_up_success = db.sign_up(
