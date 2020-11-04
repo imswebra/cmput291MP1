@@ -1,5 +1,3 @@
-> I know this is markdown and not PDF. I'll convert it to PDF before submission - Eric
-
 # CMPUT 291 Mini Project 1
 Group Members:
 - Mitchell Adam - `mbadam`
@@ -21,8 +19,6 @@ General, high-level flow:
 ```
 
 At each of the end-points in this high-level flow, a call to a function in `database.py` allows us to insert into, query, or otherwise interact with the database. Because of this, the flow above more closely describes the flow of user interaction of the program.
-
-> The general overview of the system gives a high level introduction and may include a diagram showing the flow of data between different components; this can be useful for both users and developers of your application.
 
 ### User Guide
 1. Initialize the database with `sqlite3 $DATABASE_NAME.db <sql/tables.sql`
