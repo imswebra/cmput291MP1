@@ -11,7 +11,7 @@ class TestDatabase(unittest.TestCase):
         db.connect('unittest_database.db')
 
     def test_count_keywords(self):
-        self.assertEquals(db.count_keywords("Green apples are tasty", "Tasty apples are green", "Nothing", "green tasty"), 2)
+        self.assertEqual(db.count_keywords("Green apples are tasty", "Tasty apples are green", "Nothing", "green tasty"), 2)
 
     def test_connect(self):
         self.assertTrue(db.connect('database.db'))
@@ -19,7 +19,7 @@ class TestDatabase(unittest.TestCase):
 
     def test_generate_unique_key(self):
         random.seed(0)
-        self.assertEquals(db.generate_unique_key(4, "posts", "pid"), '6604')
+        self.assertEqual(db.generate_unique_key(4, "posts", "pid"), '6604')
 
     def test_sign_up(self):
         self.assertTrue(db.sign_up("4", "John", "Calgary", "password"))
@@ -44,12 +44,12 @@ class TestDatabase(unittest.TestCase):
             ('6', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 5, 0, None),
             ('7', '2020-08-29', 'Apple Apple', 'This has apple 4 times ApplE', '3', 5, 0, None)
         ]
-        self.assertEquals(db.search_posts("apple"), expected)
+        self.assertEqual(db.search_posts("apple"), expected)
 
     def test_get_question_of_answer(self):
         expected = ("1", None)
-        self.assertEquals(db.get_question_of_answer('2'), expected)
-        self.assertEquals(db.get_question_of_answer('1'), None)
+        self.assertEqual(db.get_question_of_answer('2'), expected)
+        self.assertEqual(db.get_question_of_answer('1'), None)
 
     def test_get_badges(self):
         expected = [
@@ -60,7 +60,7 @@ class TestDatabase(unittest.TestCase):
             ('Good post', 'Bronze'),
             ('Decent post', 'Bronze')
         ]
-        self.assertEquals(db.get_badges(), expected)
+        self.assertEqual(db.get_badges(), expected)
 
     def test_case_insensitive_tag(self):
         self.assertFalse(db.check_has_case_insensitive_entry("tags", ["pid", "tag"], ["1", "BANANA"]))

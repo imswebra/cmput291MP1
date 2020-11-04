@@ -20,6 +20,8 @@ General, high-level flow:
     5. logged_in.post_action() -> Individual post action functions
 ```
 
+At each of the end-points in this high-level flow, a call to a function in `database.py` allows us to insert into, query, or otherwise interact with the database. Because of this, the flow above more closely describes the flow of user interaction of the program.
+
 > The general overview of the system gives a high level introduction and may include a diagram showing the flow of data between different components; this can be useful for both users and developers of your application.
 
 ### User Guide
@@ -70,12 +72,14 @@ Utility Function Tests:
 - test_stringify: ensure correct conversion to string
 - test_is_index: ensure ability to identify out of range selections
 
-The strategy employed to execute manual testing was to heavily test the most common areas for failure, such as user input and SQL queries. Schema and data files were developed for manual testing. An SQL database was created with data that specifically addressed the project requirements and corresponding edge cases. This allowed for quick and easy testing during development. It was also easy to quickly add new data to the database as further testing was required.
+The strategy employed to execute manual testing was to heavily test the most common areas for failure, such as user input and SQL queries. Schema and data files were developed for manual testing. An SQL database was created with data that specifically addressed the project requirements and corresponding edge cases. This allowed for quick and easy testing during development. It was also easy to quickly add new data to the database as further testing was required. Additionally, SQL queries were tested outside of the python programming environment. This allowed us to test that the queries returned results that were expected. After ensuring that the queries returned the expected values, we then implemented these queries into our program which ensured that we were querying for the correct data.
+
+Because our testing strategy took place throughout the development process, bugs were found and then fixed incrementally. While this did not allow us to discover bugs in large batches and provide statistics about the bugs that were discovered, it allowed us to fix bugs as they arose. This was important to us, because many of our functions, especially the low-level functions, form the basis of functionality for higher-level functions and ensuring that these functions were bug-free allowed us to continue development on the higher-level functions without being blocked.
 
 ## Group Work Strategy
 Our group began work on the project two weeks before the deadline. At this time, each member of the team began to familiarize themselves with the project and began to understand what was required. As members began to work, they would update the other members on what had been accomplished and what was the next item on the TODO list. To ensure even splitting of the work, members would request that certain features were left for them to implement. In this way, members were able to work on the project when they had time to do so without worrying about not contributing. The group members would consistently keep a tally of what work was completed and what work was still required to implement, and group members were able to choose tasks to whittle down the necessary work. Once a sizeable portion of the product had been done, a TODO list was started on what was needed to finalize the project. At this time, each member volunteered to work on a few of the "clean up" tasks that were required.
 
-As our group was not able to meet in person to work on this project, we had a group chat made to ensure constant communication between members. Members were able to keep each other up-to-date on what had been completed and what was still left to be done. Members were could also consult the group when they found a task to be difficult and needed assistance. This allowed members to work individually, but collaborate if needed.
+As our group was not able to meet in person to work on this project, we had a group chat made to ensure constant communication between members. Members were able to keep each other up-to-date on what had been completed and what was still left to be done. Members were could also consult the group when they found a task to be difficult and needed assistance. This allowed members to work individually, but collaborate if needed. As well, it ensured that the program that was developed matched the requirements and expectations of each member.
 
 In order to ensure all requirements were met, lists of tasks were made by directly consulting the requirements. This allowed us to stay organized and address the needed features of the projects.
 
@@ -120,7 +124,8 @@ Tasks:
 - Adding of descriptive docstrings to functions
 - Implementation of a unit testing framework
 - Database and utility test cases
-- Writing design document
+- Execution of manual testing
+- Additions to design document
 
 #### Eric
 Time Estimate: ~12 hours
