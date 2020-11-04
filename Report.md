@@ -101,46 +101,58 @@ The full commit log can be viewed [here](https://github.com/imswebra/cmput291MP1
 Time Estimate: ~10-14 hours
 
 Tasks:
-- Building the initial program structure and program flow
+- Implementation of initial program structure and program flow
 - Establish database connection
 - Create SQL files for testing
-- Develop utility functions
-- Develop sql utility functions (generate unique key)
-- Hide password
-- Exit program
+- Implementation of many utility functions
+- Implementation of SQL utility functions (generate unique key)
+- Hide password input
+- Implementation of initial navigation structure (exiting, logging out, going back)
 - Initial implementation of many of the required features:
     - Sign-up process
-    - Login and logout
+    - Login process
     - Search for question by keywords
     - Post a question
     - Vote post-action
-    - Post action-Answer
+    - Answer post-action
     - Handle privileged users
-- Report additions
+- Execution of manual testing
+- Various bug fixes across codebase
+- Additions to report
 
 #### Nayan
 Time Estimate: ~12-14 hours
 
 Tasks:
-- Develop sql utility functions (get_question_of_answer, check_has_case_insensitive_entry)
+- Implementation of SQL utility functions (get_question_of_answer, check_has_case_insensitive_entry)
 - Initial implementation of many of the required features:
     - Mark as accepted post-action
     - Add tag post-action
     - Edit post post-action
-- Various bug fixes across codebase
-- Adding of descriptive docstrings to functions
-- Implementation of a unit testing framework
-- Database and utility test cases
+- Addition of docstrings to all functions in database.py, logged_in.py
+- Implementation of unit testing framework
+- Implementation of all database and utility test cases
 - Execution of manual testing
-- Additions to design document
+- Various bug fixes across codebase
+- Additions to report
 
 #### Eric
 Time Estimate: ~12 hours
 
 Tasks:
-- Implementing the give a badge post-action
-- Large code refactors, general code quality improvements
-- Implementing/improving the menu and code flow with back and logout
-- General product polish (User friendly prompts, visual consistency, error messages with usage hints, QoL improvements)
-- Manual testing, bug fixing
-- Writing design document
+- Implementation of the give badge post-action and required SQL functions
+- Large code refactors after the initial implementations by other members
+- General code quality improvements
+- Addition of many error handling fragments across the program functions
+    - Invalid input
+    - Empty input
+    - Wrong number of inputs
+- Addition of many quality of life / product polish improvements:
+    - Consistent input prompts
+    - User-friendly error messages with usage hints
+    - Pretty table printing (search results and badge selection)
+- Implementation of final navigation structure (Allows exiting, logging out, and going back from any part of the program)
+- Addition of docstrings to all functions in login.py, utils.py
+- Execution of manual testing
+- Various bug fixes across codebase
+- Initial writing of report
