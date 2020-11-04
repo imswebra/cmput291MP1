@@ -23,7 +23,7 @@ At each of the end-points in this high-level flow, a call to a function in `data
 
 ### User Guide
 1. Initialize the database with `sqlite3 $DATABASE_NAME.db <sql/tables.sql`
-2. If you wish you populate the database with a dataset do `sqlite3 $DATABASE_NAME.db <sql/$DATASET_NAME.sql`
+2. If you wish to populate the database with a dataset do `sqlite3 $DATABASE_NAME.db <sql/$DATASET_NAME.sql`
 3. Run the program with `python3 main.py $DATABASE_NAME.db`
 4. From here, the program will prompt the user for input, allowing the user to execute the desired functionality of the program. Any changes made to the database through the program will be reflected in `$DATABASE_NAME.db`
 5. At any point in the program's execution where input is requested, `/exit` can be used to quit the program and `/back` can be used to return to a previous menu. Once logged-in, `/logout` can be also be used at any point to return to the login/sign-up menu.
@@ -31,9 +31,9 @@ At each of the end-points in this high-level flow, a call to a function in `data
 ## Software Design
 `main.py` handles the CLI arugments, and has only three other responsibilities: Initialize the database connection (via `database.py`), run the login routine (from `login.py`) and, after validation, pass the user information to the main execution loop of `logged_in.py`.
 
-`login.py` contains code for the login routine, with it's main high level function being `login_or_signup()`. This function prompts the user if they would like to either sign-up or login, and upon receiving user input, directs the user to either the `login()` or `signup()` sub-function. The `login()` sub-function prompts the user for the required login details and then makes a call to the `login()` function within `database.py`. After a successful login, this sub-function will also check if the logged-in user is a privileged user by making a call to the `check_privilege()` function within `database.py`. Similarly, the `signup()` sub-function prompts the user for the required sign-up information and then makes a call to the `sign_up()` function within `database.py`.
+`login.py` contains code for the login routine, with its main high level function being `login_or_signup()`. This function prompts the user if they would like to either sign-up or login, and upon receiving user input, directs the user to either the `login()` or `signup()` sub-function. The `login()` sub-function prompts the user for the required login details and then makes a call to the `login()` function within `database.py`. After a successful login, this sub-function will also check if the logged-in user is a privileged user by making a call to the `check_privilege()` function within `database.py`. Similarly, the `signup()` sub-function prompts the user for the required sign-up information and then makes a call to the `sign_up()` function within `database.py`.
 
-`logged_in.py` contains the code for the main execution loop of the program. `logged_in()` is the highest level function that prompts the user to either post a question or search for a post, and accordingly calls the appropriate subfunction (`post_question()` or `search_select_posts()`). After a question is posted, the user is returned to this top-level menu, but after a successful search and selection, the selected post pid is passed to the `post_action()` function. This function allows the user to select post-actions, all of which also have their own subfunctions. This nesting subfunction structure follows what would be expected from a menu structure for this program, and thus it facilitates allowing the code to move back up the menu tree.
+`logged_in.py` contains the code for the main execution loop of the program. `logged_in()` is the highest level function that prompts the user to either post a question or search for a post, and accordingly calls the appropriate subfunction (`post_question()` or `search_select_posts()`). After a question is posted, the user is returned to this top-level menu, but after a successful search and selection, the selected post pid is passed to the `post_action()` function. This function allows the user to select post-actions, all of which also have their own subfunctions. This nesting subfunction structure follows what would be expected from a menu structure for this program, and thus it facilitates allowing the code to move back up the menu tree. Each of the subfunctions within `logged_in.py` interact with the database through related functions within `database.py`.
 
 `database.py` is somewhat standalone in contrast. It contains and abstracts away all of the SQL interaction code, and is thus referenced at all levels of the program. For the most part, the functions defined in this file have equivalents in `login.py` and `logged_in.py`; While those handle user input, errors, printing, and the navigation structure, the equivalents in `database.py` contain strictly the SQL calls, with some of the error handling being passed back up to the calling function. Examples of those equivalents are `login()`, `sign_up()`, `post_question()`, `search_posts()`, and all the various post-action functions.
 
@@ -45,7 +45,7 @@ At each of the end-points in this high-level flow, a call to a function in `data
 ## Testing Strategy
 The testing strategy consisted of a combination of both unit tests for several of the key, low-level functions (namely functions within `database.py` and `utils.py`) as well as extensive manual testing for the higher-level areas that were frequently changed or had a high-likelihood of failure.
 
-Unit tests were implemented to ensure that the low-level functions operated as expected. Given their frequent use by the higher-level functions, this automated testing was incredibly important. The collection of unit tests is contained within the `tests/` directory, and tests can be run by calling `python3 -m unittest tests/$TEST_SUITE.py` from the root directory. The test cases within `database_test.py` test the execution of many functions within `database.py`. The test cases within `utils_test.py` test the some of the helper functions of `utils.py`, with a focus on
+Unit tests were implemented to ensure that the low-level functions operated as expected. Given their frequent use by the higher-level functions, this automated testing was incredibly important. The collection of unit tests is contained within the `tests/` directory, and tests can be run by calling `python3 -m unittest tests/$TEST_SUITE.py` from the root directory. The test cases within `database_test.py` test the execution of the functions within `database.py`. The test cases within `utils_test.py` test some of the helper functions of `utils.py`, with a focus on
 the functions that perform validation and string manupilation. Many of the functions within `utils.py` were better suited for manual testing, as they either take user input or they pretty-print data.
 
 The following unit test cases were developed:
@@ -72,7 +72,7 @@ Database Tests:
 
 Utility Function Tests:
 
-- test_split_and_strip: ensure that input is correctly parsed and striped
+- test_split_and_strip: ensure that input is correctly parsed and stripped
 - test_keyword_input_validate: ensure that navigation keywords work
 - test_get_indices_range: ensure that max 5 posts are shown at time
 - test_stringify: ensure correct conversion to string
