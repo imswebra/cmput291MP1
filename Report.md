@@ -43,7 +43,7 @@ General, high-level flow:
 
 `database.py` is somewhat standalone in contrast. It contains and abstracts away all of the SQL interaction code, and is thus referenced at all levels of the code. For the most part, the functions defined in this file have equivalents in `login.py` and `logged_in.py`; While those handle user input, errors, printing, and the navigation structure, the equivalents in `database.py` contain strictly the SQL calls, with some of the error handling being passed back up to the calling function. Examples of those equivalents are `login()`, `sign_up()`, `post_question()`, `search_posts()`, and all the various post-action functions.
 
-`utils.py` is the only other python file, and contains helper utility functions.
+`utils.py` is the only other python file, and contains helper utility functions. These functions are used for tasks such as input parsing, error messaging and printing format. This allows easy reuse of common functionality, keeping other files clean.
 
 ## Differences in Design from Specification
 1. The specification document says that for the "give a badge" post-action, the user must provide a badge name. The marking rubric later clarifies that this badge name must be valid in the sense that it already exists in badges table. Instead of taking a text input for this post-action, we opted to allow the user to select a badge from a list for an improved user-experience. This is implemented and functions much in the same way as selecting from search results.
@@ -53,7 +53,7 @@ The testing strategy consisted of a combination of both unit tests for several o
 
 The unit tests were implemented to ensure that the low-level functions operated as expected. This was important because many of the higher-level functions relied on the proper execution of these low-level functions. The collection of unit tests is contained within `tests/` and tests can be run by calling `python3 -m unittest tests/$TEST_SUITE.py`. The test cases within `database_test.py` test the execution of many functions within `database.py`. Testing of functions within `database.py` that insert into the database was difficult and because of the difficulty to verify the underlying data after function calls, these functions were often extensively tested through manual testing instead of unit tests. The test cases within `utils_test.py` test the helper functions of `utils.py` that are utilized by many of the other functions of the program. Despite this, many of the functions within `utils.py` are used to print data in a readable manner and these functions were tested manually. Similarly, several functions within `utils.py` accept user input and validate the input and these functions were tested using manual testing.
 
-The strategy employed to execute manual testing was to heavily test the most common areas for failure, such as user-input and SQL queries. The following test cases were developed.
+The following test cases were developed.
 
 Database Tests:
 - test_count_keywords: ensure keywords are counted correctly
@@ -74,10 +74,18 @@ Additional Tests:
 - test_stringify: ensure correct conversion to string
 - test_is_index: ensure ability to identify out of range selections
 
->The testing strategy discusses your general strategy for testing, with the scenarios being tested, the coverage of your test cases and (if applicable) some statistics on the number of bugs found and the nature of those bugs.
+The strategy employed to execute manual testing was to heavily test the most common areas for failure, such as user-input and SQL queries. Schema and data files were developed for manual testing. A sql DB was created with data that specifically addressed the project requirements and corresponding edge cases.  This allowed quick and easy testing during development. It was also easy to quickly add new data to the database as further testing was required.
 
 ## Group Work Strategy
-The group work strategy between all the members was fairly loose and relaxed. We didn't formally split up the work into three sections; Generally, the team members worked on the project as they had time, working on what needed to be done at the time. We communicated and coordinated regularly as we each made updates to the project. The group members would consistently keep a tally of what work was completed and what work was still required to implement and group members were able to choose tasks to whittle down the necessary work.
+Our group began work on the project 2 weeks before the deadline. At this time each member of the team began to familiarize themselves with the project and began to understand what was required. As members began to work, they would update other members of the group on what had been accomplished and what was the next item on the TODO list. To ensure even splitting of the work, members would request that certain features were left for them to implement. In this way, members were able to work on the project when they had time to do so without worrying about not contributing. The group members would consistently keep a tally of what work was completed and what work was still required to implement and group members were able to choose tasks to whittle down the necessary work. Once a sizeable portion of the product had been done, a TODO list was started on what was needed to finalize the project. At this time each member volunteered to work on a few of the "clean up" tasks that were required.
+
+As our group was not able to meet in person to work on this project, we had a group chat made to ensure constant communication between members. Members were able to keep each other up-to-date on what had been completed and what was still left to be done. Members were could also consult the group when they found a task to be difficult and needed assistance from the group. This allowed members to work individually, but collaborate if needed.
+
+In order to ensure all requirements were met, lists of tasks were made by directly consulting the requirements. This allowed us to stay organized and address the needed features of the projects.
+
+In order to not miss any clarifications, we also copied all the clarifications into our todo list so that we could change our previous work if needed and could easily see the clarifications for new work
+
+Overall, our group maintained good communication throughout the project with members volunteering on what aspects they wanted to work on. All members were eager to contribute and the dynamics of the team was positive.
 
 ### Member estimates and tasks
 > **TODO:** Update this once everything has been finalized\
@@ -103,7 +111,8 @@ Tasks:
     - Post a question
     - Vote post-action
     - Post action-Answer
-    - Handle prviliged users
+    - Handle privileged users
+- Small report additions
 
 #### Nayan
 Time Estimate: ~12-14 hours
