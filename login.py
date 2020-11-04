@@ -50,12 +50,8 @@ def login():
         if login_values[0] == "/back":
             return None, None
 
-        print("Enter: Password")
-        login_values.append(getpass("Input: "))
-        print("")
-
         # Attempt to login
-        login_success = db.login(*login_values)
+        login_success = db.login(*login_values, get_password())
         if login_success:
             # Check if user is privileged
             is_privileged = db.check_privilege(login_values[0])
@@ -83,14 +79,29 @@ def signup():
             print("ID must be less than 5 characters")
             continue
 
-        print("Enter: Password")
-        sign_up_values.append(getpass("Input: "))
-        print("")
+        while (True):
+            password = get_password()
+            if password == "":
+                print("Password cannot be empty. Please try again.")
+            else:
+                break
 
         # Attempt to sign up
-        sign_up_success = db.sign_up(*sign_up_values)
+        sign_up_success = db.sign_up(*sign_up_values, password)
 
         if sign_up_success:
             return sign_up_values[0]
         else:
             print("Sign up failed, please try again")
+
+
+def get_password():
+    """Prompts user for password
+
+    Returns:
+        (str): The stripped password
+    """
+    print("Enter: Password")
+    password = getpass("Input: ").strip()
+    print("")
+    return password
