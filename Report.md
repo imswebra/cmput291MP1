@@ -1,5 +1,6 @@
 # CMPUT 291 Mini Project 1
 Group Members:
+
 - Mitchell Adam - `mbadam`
 - Nayan Prakash - `nayan`
 - Eric Claerhout - `claerhou`
@@ -50,6 +51,7 @@ the functions that perform validation and string manupilation. Many of the funct
 The following unit test cases were developed:
 
 Database Tests:
+
 - test_count_keywords: ensure keywords are counted correctly
 - test_connect: ensure connection to the DB
 - test_generate_unique_key: ensure unique key is generated
@@ -69,6 +71,7 @@ Database Tests:
 - test_case_insensitive_tag: ensure that tags are case insensitive
 
 Utility Function Tests:
+
 - test_split_and_strip: ensure that input is correctly parsed and striped
 - test_keyword_input_validate: ensure that navigation keywords work
 - test_get_indices_range: ensure that max 5 posts are shown at time
@@ -94,9 +97,11 @@ Overall, our group maintained good communication throughout the project with mem
 The full commit log can be viewed [here](https://github.com/imswebra/cmput291MP1/commits/master).
 
 #### Mitchell
+
 Time Estimate: ~10-14 hours
 
 Tasks:
+
 - Implementation of initial program structure and program flow
 - Establish database connection
 - Create SQL files for testing
@@ -117,9 +122,11 @@ Tasks:
 - Additions to report
 
 #### Nayan
+
 Time Estimate: ~12-14 hours
 
 Tasks:
+
 - Implementation of SQL utility functions (get_question_of_answer, check_has_case_insensitive_entry)
 - Initial implementation of many of the required features:
     - Mark as accepted post-action
@@ -133,9 +140,11 @@ Tasks:
 - Additions to report
 
 #### Eric
+
 Time Estimate: ~12 hours
 
 Tasks:
+
 - Implementation of the give badge post-action and required SQL functions
 - Large code refactors after the initial implementations by other members
 - General code quality improvements
