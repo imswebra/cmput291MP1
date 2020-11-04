@@ -37,10 +37,11 @@ def request_input(expected_len=0, logout_allowed=True, password=False):
     if logout_allowed:
         keywords += "/logout"
 
-    if (expected_len > 0 and values[0] not in keywords
-            and len(values) != expected_len):
-        print_invalid_input((expected_len, len(values)))
-        return None
+    if expected_len > 0 and values[0] not in keywords:
+        length = len(values) - values.count("")
+        if length != expected_len:
+            print_invalid_input((expected_len, length))
+            return None
 
     if password and values[0] not in keywords:
         password = getpass()
@@ -80,7 +81,7 @@ def print_invalid_input(len_tuple=None):
         message will use the "Expected #, got #" form
     """
     if len_tuple:
-        print("Invalid input, expected", len_tuple[0], "items, got", len_tuple[1])
+        print("Invalid input, expected", len_tuple[0], "item(s), got", len_tuple[1])
     else:
         print("Input is invalid")
 
