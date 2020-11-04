@@ -64,10 +64,15 @@ def post_question():
         (bool): True if the user chooses to logout, False otherwise
     """
     print("Post Question")
-    title_text = input("Enter title: ")
-    to_return, return_val = keyword_input_validate(title_text)
-    if to_return:
-        return return_val
+    while (True):
+        title_text = input("Enter title: ")
+        to_return, return_val = keyword_input_validate(title_text)
+        if to_return:
+            return return_val
+        if title_text.strip() == "":
+            print("\nTitle cannot be empty, please try again.")
+            continue
+        break
 
     body_text = input("Enter body: ")
     to_return, return_val = keyword_input_validate(body_text)
@@ -235,10 +240,15 @@ def post_answer(pid):
         (bool): True if the user chooses to logout, False otherwise
     """
     print("Post Answer")
-    title_text = input("Enter title: ")
-    to_return, return_val = keyword_input_validate(title_text)
-    if to_return:
-        return return_val
+    while (True):
+        title_text = input("Enter title: ")
+        to_return, return_val = keyword_input_validate(title_text)
+        if to_return:
+            return return_val
+        if title_text.strip() == "":
+            print("\nTitle cannot be empty, please try again.")
+            continue
+        break
 
     body_text = input("Enter body: ")
     to_return, return_val = keyword_input_validate(body_text)
@@ -385,10 +395,15 @@ def add_tag(pid):
         (bool): True if the user chooses to logout, False otherwise
     """
     print('Add tag')
-    tag = input('Enter a tag: ')
-    to_return, return_val = keyword_input_validate(tag)
-    if to_return:
-        return return_val
+    while (True):
+        tag = input('Enter a tag: ')
+        to_return, return_val = keyword_input_validate(tag)
+        if to_return:
+            return return_val
+        if tag.strip() == "":
+            print("\nTag cannot be empty, please try again.")
+            continue
+        break
 
     add_tag_success = db.add_tag(pid, tag)
     if add_tag_success:
