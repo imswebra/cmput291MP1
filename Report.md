@@ -98,7 +98,7 @@ The full commit log can be viewed [here](https://github.com/imswebra/cmput291MP1
 
 #### Mitchell
 
-Time Estimate: ~10-14 hours
+Time Estimate: ~14-16 hours
 
 Tasks:
 
@@ -123,7 +123,7 @@ Tasks:
 
 #### Nayan
 
-Time Estimate: ~12-14 hours
+Time Estimate: ~14-16 hours
 
 Tasks:
 
@@ -141,7 +141,7 @@ Tasks:
 
 #### Eric
 
-Time Estimate: ~12 hours
+Time Estimate: ~14-16 hours
 
 Tasks:
 
