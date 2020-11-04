@@ -7,8 +7,6 @@ Group Members:
 - Eric Claerhout - `claerhou`
 
 ## System Overview
-> **TODO:** Update this as needed after refactors/filename changes\
-> **TODO:** Finish this
 Implemented in Python, CLI interface
 
 General, high-level flow:
@@ -32,9 +30,6 @@ General, high-level flow:
 5. At any point in the program's execution, `/exit` can be used to quit the program
 
 ## Software Design
-> **TODO:** Update this as needed after refactors/filename changes\
-> **TODO:** I feel like this needs more?
-
 `main.py` handles the CLI arugments, and has only three other responsibilities: Initialize the database connection (via `database.py`), run the login routine (from `login.py`) and, after validation, pass the user information to the main execution loop of `logged_in.py`.
 
 `login.py` contains code for the login routine, with it's main high level function being `login_or_signup()`. This function prompts the user if they would like to either signup or login and upon receiving user input, directs the user to either the `login()` or `signup()` sub-function. The `login()` sub-function prompts the user for the required login function and then makes a call to `login()` function within `database.py`. After a successful login, this sub-function will check if the logged in user is a privileged user by making a call to the `check_privilege()` function within `database.py`. Similarly, the `signup()` sub-function prompts the user for the required signup information and then makes a call to `sign_up()` function within `database.py`.
@@ -88,9 +83,6 @@ In order to not miss any clarifications, we also copied all the clarifications i
 Overall, our group maintained good communication throughout the project with members volunteering on what aspects they wanted to work on. All members were eager to contribute and the dynamics of the team was positive.
 
 ### Member estimates and tasks
-> **TODO:** Update this once everything has been finalized\
-> **TODO:** Make repo public after submission deadline has passed
-
 The full commit log can be viewed [here](https://github.com/imswebra/cmput291MP1/commits/master).
 
 #### Mitchell
@@ -112,7 +104,7 @@ Tasks:
     - Vote post-action
     - Post action-Answer
     - Handle privileged users
-- Small report additions
+- Report additions
 
 #### Nayan
 Time Estimate: ~12-14 hours
@@ -126,6 +118,8 @@ Tasks:
 - Various bug fixes across codebase
 - Adding of descriptive docstrings to functions
 - Implementation of a unit testing framework
+- Database and utility test cases
+- Writing design document
 
 #### Eric
 Time Estimate: ~12 hours
