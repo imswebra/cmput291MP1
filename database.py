@@ -2,7 +2,6 @@ import sqlite3
 from datetime import date
 import random, string
 
-#TODO: Actually catch the correct errors!!
 conn = None
 
 
