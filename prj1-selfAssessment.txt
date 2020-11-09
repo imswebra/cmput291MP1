@@ -1,0 +1,44 @@
+Group members
+(mark with * the member whose submission is assessed)
+  1. Mitchell Adam - mbadam
+  2. Nayan Prakash - nayan
+  3. Eric Claerhout - claerhou *
+
+For each section in the marking, test your project and mark it as 'pass', 'partial pass', 'fail'.
+
+Self-test result
+
+1. Login screen
+ a) pass
+ b) pass
+ c) pass
+ d) pass
+
+2. Post a question: pass
+
+3. Search for posts:
+ a) partial pass (-1 for votes)
+ b) pass
+
+4. Post action-answer:
+ a) pass
+ b) pass
+
+5. Checking accesses: pass
+
+6. Post action-vote: pass
+
+7. Post action-mark as the accepted:
+ a) pass
+ b) pass
+ c) pass
+
+8. Post action-Give a badge: pass (though implemented slightly differently)
+
+9. Post action-Add a tag: pass
+
+10. Post action-Edit: pass
+
+11. Logout: pass
+
+12. Case-sensivity: pass
